@@ -1,0 +1,11 @@
+{
+  "name": "apps",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "eslint": "catalog:",
+    "@repo/eslint-config": "workspace:*"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["**/*.ts", "**/*.tsx", "eslint.config.js"],
+  "exclude": ["node_modules", "dist", ".turbo"]
+}
