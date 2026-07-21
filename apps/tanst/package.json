@@ -4,8 +4,11 @@
   "private": true,
   "type": "module",
   "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/react": "catalog:",
     "eslint": "catalog:",
-    "@repo/eslint-config": "workspace:*"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   }
 }

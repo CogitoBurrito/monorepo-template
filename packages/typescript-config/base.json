@@ -7,12 +7,14 @@
     "incremental": true,
     "isolatedModules": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "module": "nodenext",
+    "module": "preserve",
     "moduleResolution": "bundler",
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "jsx": "react-jsx",
     "skipLibCheck": true,
-    "strict": true,
     "target": "es2025"
   }
 }
