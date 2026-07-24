@@ -1,5 +1,5 @@
 ---
-name: collections-map-get-or-insert
+title: Use Map.getOrInsert() for lookup-or-initialize patterns
 ---
 
 # Use Map.getOrInsert() for lookup-or-initialize patterns

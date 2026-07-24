@@ -1,5 +1,5 @@
 ---
-name: async-promise-try
+title: Use Promise.try() for mixed sync and async code paths
 ---
 
 # Use Promise.try() for mixed sync and async code paths

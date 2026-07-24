@@ -1,5 +1,5 @@
 ---
-name: types-as-const
+title: Use `as const` to preserve literal types
 ---
 
 # Use `as const` to preserve literal types

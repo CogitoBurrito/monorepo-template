@@ -1,5 +1,5 @@
 ---
-name: arrays-iterator-helpers
+title: Use iterator helpers for lazy pipelines
 ---
 
 # Use iterator helpers for lazy pipelines

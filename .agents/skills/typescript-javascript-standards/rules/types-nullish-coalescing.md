@@ -1,5 +1,5 @@
 ---
-name: types-nullish-coalescing
+title: Use Nullish Coalescing (`??`) when defaulting only `null`/`undefined`
 ---
 
 # Use Nullish Coalescing (`??`) when defaulting only `null`/`undefined`

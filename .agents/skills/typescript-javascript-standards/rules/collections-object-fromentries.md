@@ -1,5 +1,5 @@
 ---
-name: collections-object-fromentries
+title: Prefer Object.fromEntries() or spread over Object.assign()
 ---
 
 # Prefer Object.fromEntries() or spread over Object.assign()

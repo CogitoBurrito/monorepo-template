@@ -1,5 +1,5 @@
 ---
-name: runtime-uint8array-encoding
+title: Use Uint8Array helpers for byte encoding
 ---
 
 # Use Uint8Array helpers for byte encoding

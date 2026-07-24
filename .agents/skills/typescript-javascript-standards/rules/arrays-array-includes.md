@@ -1,5 +1,5 @@
 ---
-name: arrays-array-includes
+title: Use .includes() for membership checks
 ---
 
 # Use .includes() for membership checks

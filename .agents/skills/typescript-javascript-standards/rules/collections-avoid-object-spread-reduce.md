@@ -1,5 +1,5 @@
 ---
-name: collections-avoid-object-spread-reduce
+title: Avoid object spread in `reduce()` accumulators
 ---
 
 # Avoid object spread in `reduce()` accumulators

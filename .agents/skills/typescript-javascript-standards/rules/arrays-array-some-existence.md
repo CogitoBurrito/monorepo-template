@@ -1,5 +1,5 @@
 ---
-name: arrays-array-some-existence
+title: Use .some() for existence checks
 ---
 
 # Use .some() for existence checks

@@ -1,5 +1,5 @@
 ---
-name: arrays-array-flatmap
+title: Use .flatMap() for map + flatten operations
 ---
 
 # Use .flatMap() for map + flatten operations

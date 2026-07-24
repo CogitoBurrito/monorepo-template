@@ -1,5 +1,5 @@
 ---
-name: collections-object-groupby
+title: Use Object.groupBy() for grouping arrays by key
 ---
 
 # Use Object.groupBy() for grouping arrays by key

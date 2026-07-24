@@ -1,5 +1,5 @@
 ---
-name: types-nullish-coalescing-assignment
+title: Use Nullish Coalescing Assignment (`??=`) to set defaults safely
 ---
 
 # Use Nullish Coalescing Assignment (`??=`) to set defaults safely

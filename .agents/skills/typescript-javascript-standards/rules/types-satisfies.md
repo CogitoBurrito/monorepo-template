@@ -1,5 +1,5 @@
 ---
-name: types-satisfies
+title: Use `satisfies` to validate shapes without changing inference
 ---
 
 # Use `satisfies` to validate shapes without changing inference

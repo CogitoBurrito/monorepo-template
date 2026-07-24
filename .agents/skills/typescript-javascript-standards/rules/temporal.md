@@ -27,3 +27,5 @@ const inLondon = meeting.withTimeZone('Europe/London')
 ```
 
 Notes: Pick the `Temporal` type that matches the actual domain meaning: `PlainDate`, `PlainTime`, `PlainDateTime`, `ZonedDateTime`, `Instant`, `PlainYearMonth`, or `PlainMonthDay`. If runtime support is missing, use the official `Temporal` polyfill rather than adding a legacy date library for new code.
+
+Reference: https://tc39.es/proposal-temporal/docs/cookbook.html

@@ -1,5 +1,5 @@
 ---
-name: arrays-every-universal
+title: Use .every() for universal checks
 ---
 
 # Use .every() for universal checks

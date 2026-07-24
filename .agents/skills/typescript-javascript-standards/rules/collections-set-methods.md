@@ -1,5 +1,5 @@
 ---
-name: collections-set-methods
+title: Use native Set methods for composition and comparisons
 ---
 
 # Use native Set methods for composition and comparisons

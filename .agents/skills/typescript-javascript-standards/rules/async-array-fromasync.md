@@ -1,5 +1,5 @@
 ---
-name: async-array-fromasync
+title: Use Array.fromAsync() to collect async iterables
 ---
 
 # Use Array.fromAsync() to collect async iterables

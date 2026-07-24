@@ -1,5 +1,5 @@
 ---
-name: async-json-import-attributes
+title: Use import attributes for JSON modules
 ---
 
 # Use import attributes for JSON modules

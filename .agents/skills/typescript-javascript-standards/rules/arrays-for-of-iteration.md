@@ -1,5 +1,5 @@
 ---
-name: arrays-for-of-iteration
+title: Prefer for...of for iteration
 ---
 
 # Prefer for...of for iteration

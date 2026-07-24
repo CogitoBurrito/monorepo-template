@@ -1,5 +1,5 @@
 ---
-name: runtime-math-sumprecise
+title: Use Math.sumPrecise() for floating-point sums
 ---
 
 # Use Math.sumPrecise() for floating-point sums

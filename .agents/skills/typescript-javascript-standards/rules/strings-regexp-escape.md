@@ -1,5 +1,5 @@
 ---
-name: strings-regexp-escape
+title: Use RegExp.escape() for user-controlled regex input
 ---
 
 # Use RegExp.escape() for user-controlled regex input

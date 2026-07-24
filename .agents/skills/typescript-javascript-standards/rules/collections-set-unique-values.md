@@ -1,5 +1,5 @@
 ---
-name: collections-set-unique-values
+title: Use `Set` for unique values and membership checks
 ---
 
 # Use `Set` for unique values and membership checks

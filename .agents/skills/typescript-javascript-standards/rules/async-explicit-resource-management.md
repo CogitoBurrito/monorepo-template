@@ -1,5 +1,5 @@
 ---
-name: async-explicit-resource-management
+title: Use using and await using for cleanup
 ---
 
 # Use using and await using for cleanup

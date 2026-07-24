@@ -1,5 +1,5 @@
 ---
-name: collections-map-dynamic-keys
+title: Use `Map` for dynamic key-value collections
 ---
 
 # Use `Map` for dynamic key-value collections

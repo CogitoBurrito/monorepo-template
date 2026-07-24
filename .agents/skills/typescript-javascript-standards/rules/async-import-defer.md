@@ -1,5 +1,5 @@
 ---
-name: async-import-defer
+title: Use import defer for heavy rarely-used modules
 ---
 
 # Use import defer for heavy rarely-used modules

@@ -21,6 +21,8 @@ TypeScript/JavaScript coding standards. Rules that must be followed for writing 
 | [collections-object-groupby](rules/collections-object-groupby.md) | Use `Object.groupBy()` for grouping arrays by key when available, with appropriate type handling |
 | [collections-object-hasown](rules/collections-object-hasown.md) | Use `Object.hasOwn()` for safe property existence checks |
 | [collections-avoid-object-spread-reduce](rules/collections-avoid-object-spread-reduce.md) | Avoid copying accumulators with object spread inside `reduce()` |
+| [collections-index-maps](rules/collections-index-maps.md) | Build Map for repeated lookups |
+| [collections-set-map-lookups](rules/collections-set-map-lookups.md) | Use Set/Map for O(1) lookups |
 
 ### Arrays & Iteration
 
@@ -33,6 +35,24 @@ TypeScript/JavaScript coding standards. Rules that must be followed for writing 
 | [arrays-every-universal](rules/arrays-every-universal.md) | Use `.every()` for universal condition checks instead of `.filter().length === 0` |
 | [arrays-for-of-iteration](rules/arrays-for-of-iteration.md) | Prefer `for...of` for array/iterable iteration over C-style loops or `forEach` |
 | [arrays-iterator-helpers](rules/arrays-iterator-helpers.md) | Use `Iterator.from()`, iterator helpers, and `Iterator.concat()` for lazy iterator pipelines |
+| [arrays-combine-iterations](rules/arrays-combine-iterations.md) | Combine multiple filter/map into one loop |
+| [arrays-length-check-first](rules/arrays-length-check-first.md) | Check array length before expensive comparison |
+| [arrays-min-max-loop](rules/arrays-min-max-loop.md) | Use loop for min/max instead of sort |
+| [arrays-tosorted-immutable](rules/arrays-tosorted-immutable.md) | Use toSorted() for immutability |
+
+### Caching & Reuse
+
+| Rule | Guidance |
+| --- | --- |
+| [caching-property-access](rules/caching-property-access.md) | Cache object properties in loops |
+| [caching-function-results](rules/caching-function-results.md) | Cache function results in module-level Map |
+| [caching-storage](rules/caching-storage.md) | Cache localStorage/sessionStorage reads |
+
+### Control Flow
+
+| Rule | Guidance |
+| --- | --- |
+| [control-flow-early-exit](rules/control-flow-early-exit.md) | Return early from functions |
 
 ### Type Safety & Nullish Values
 
@@ -51,6 +71,7 @@ TypeScript/JavaScript coding standards. Rules that must be followed for writing 
 | [strings-string-replaceall](rules/strings-string-replaceall.md) | Use `String.prototype.replaceAll()` for global replacements instead of regex replace hacks |
 | [strings-substring-slice](rules/strings-substring-slice.md) | Prefer `.substring()`/`.slice()` for predictable string slicing |
 | [strings-regexp-escape](rules/strings-regexp-escape.md) | Use `RegExp.escape()` for user-controlled regex input |
+| [strings-hoist-regexp](rules/strings-hoist-regexp.md) | Hoist RegExp creation outside loops |
 
 ### Async, Modules & Resources
 
@@ -68,7 +89,7 @@ TypeScript/JavaScript coding standards. Rules that must be followed for writing 
 | --- | --- |
 | [runtime-error-iserror](rules/runtime-error-iserror.md) | Use `Error.isError()` instead of `instanceof Error` across realms |
 | [runtime-temporal](rules/runtime-temporal.md) | Use `Temporal` for new date and time logic instead of legacy `Date`-heavy patterns or date libraries |
-| [runtime-math-sumprecise](rules/runtime-math-sumprecise.md) | Use `Math.sumPrecise()` for accurate floating-point summation |
+| [runtime-math-sumprecise](rules/runtime-math-sumprecise.md) | Use `Math.sumPrecise()` for accurate summation instead of `array.reduce((a, b) => a + b, 0)` |
 | [runtime-uint8array-encoding](rules/runtime-uint8array-encoding.md) | Use `Uint8Array` base64 and hex helpers for byte encoding |
 
 

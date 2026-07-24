@@ -1,5 +1,5 @@
 ---
-name: strings-string-replaceall
+title: Use String.prototype.replaceAll() for global replacements
 ---
 
 # Use String.prototype.replaceAll() for global replacements

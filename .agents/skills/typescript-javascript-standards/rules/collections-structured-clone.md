@@ -1,5 +1,5 @@
 ---
-name: collections-structured-clone
+title: Use structuredClone() for deep cloning
 ---
 
 # Use structuredClone() for deep cloning

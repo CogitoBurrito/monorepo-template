@@ -1,5 +1,5 @@
 ---
-name: strings-substring-slice
+title: Prefer `.substring()`/`.slice()` for predictable string slicing
 ---
 
 # Prefer `.substring()`/`.slice()` for predictable string slicing

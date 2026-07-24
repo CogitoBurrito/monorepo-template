@@ -1,5 +1,5 @@
 ---
-name: types-optional-chaining
+title: Use Optional Chaining (`?.`) to safely access nested properties
 ---
 
 # Use Optional Chaining (`?.`) to safely access nested properties

@@ -1,5 +1,5 @@
 ---
-name: runtime-error-iserror
+title: Use Error.isError() instead of instanceof Error
 ---
 
 # Use Error.isError() instead of instanceof Error

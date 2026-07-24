@@ -1,5 +1,5 @@
 ---
-name: collections-object-hasown
+title: Use Object.hasOwn() for property existence checks
 ---
 
 # Use Object.hasOwn() for property existence checks

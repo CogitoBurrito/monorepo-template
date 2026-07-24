@@ -1,5 +1,5 @@
 ---
-name: arrays-array-at
+title: Use Array.prototype.at() for indexed access
 ---
 
 # Use Array.prototype.at() for indexed access
