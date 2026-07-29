@@ -4,20 +4,21 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "ready": "vp check && vp run -r test && vp run -r build",
-    "dev": "vp run website#dev"
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types"
   },
   "devDependencies": {
     "lefthook": "catalog:",
     "prettier": "catalog:",
-    "turbo": "2.10.5"
+    "turbo": "catalog:"
   },
   "devEngines": {
-    // "packageManager": {
-    //   "name": "pnpm",
-    //   "version": "11.15.0",
-    //   "onFail": "download"
-    // }
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.15.0",
+      "onFail": "download"
+    }
   },
   "engines": {
     "node": ">=26.x.x"
