@@ -17,6 +17,9 @@ export default defineConfig({
     eslintReact.configs["disable-conflict-eslint-plugin-react-hooks"],
     eslintPluginReactImport.configs.recommended,
   ],
+  rules: {
+    "react-import/consistent-syntax": ["error", "named"],
+  },
   // Configure language/parsing options
   languageOptions: {
     // Use TypeScript ESLint parser for TypeScript files

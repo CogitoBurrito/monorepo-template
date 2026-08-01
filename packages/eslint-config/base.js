@@ -13,6 +13,15 @@ export default defineConfig({
   rules: {
     // Note: you must disable the base rule as it can report incorrect errors
     "no-unused-vars": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        selector: "FunctionDeclaration FunctionDeclaration",
+        message:
+          "Nested functions must be declared as arrow function expressions (e.g., `const fn = () => {}`).",
+      },
+    ],
+    "no-inner-declarations": ["error", "functions"],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
