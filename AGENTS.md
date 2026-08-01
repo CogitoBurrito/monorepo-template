@@ -106,9 +106,9 @@ Where new things go:
 
 Follow the project skills for coding standards:
 
-- React coding standard: `.agents/skills/react-standards/SKILL.md`
-- TypeScript/JavaScript standard: `.agents/skills/typescript-javascript-standards/SKILL.md`
-- Project coding style: `.agents/skills/coding-style/SKILL.md`
+- React coding standard: `react-standards`
+- TypeScript/JavaScript standard: `typescript-javascript-standards`
+- Project coding style: `coding-style`
 
 ## Testing and Quality
 
