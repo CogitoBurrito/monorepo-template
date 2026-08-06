@@ -1,6 +1,6 @@
 ---
-name: coding-style
-description: "Coding style standards for this codebase. Use when writing, reviewing, or refactoring code to enforce consistent style."
+name: project-coding-style
+description: "Coding style standards for this codebase. Rules that must be followed for consistent coding style."
 ---
 
 # Project coding style

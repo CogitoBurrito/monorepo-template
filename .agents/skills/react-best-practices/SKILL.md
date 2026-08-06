@@ -1,11 +1,9 @@
 ---
-name: react-standards
-description: React coding standards for efficient, maintainable, performant, and scalable React components and hooks. Use when writing, reviewing, or refactoring React/JSX/TSX code, designing custom hooks, optimizing re-renders, or improving bundle and rendering performance.
+name: react-best-practices
+description: React best practices. Rules that must be followed when writing or reviewing React code for this project.
 ---
 
 # Project coding standards for React
-
-React coding standards. Rules that must be followed for writing efficient, maintainable, performant, and scalable React components and hooks.
 
 ## Quick Reference of Rules
 

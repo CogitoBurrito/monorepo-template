@@ -1,11 +1,10 @@
 ---
-name: typescript-javascript-standards
-description: TypeScript/JavaScript coding standards for maintainable, type-safe, and efficient code. Use when TypeScript/JavaScript implementation, refactoring, code review, modern built-in APIs, type inference, collections, strings, async code, modules, resource management, and runtime APIs are involved.
+name: typescript-best-practices
+description: TypeScript best practices. Rules that must be followed when writing or reviewing TypeScript code for this project.
 ---
 
-# Project coding standards for TypeScript/JavaScript
+# TypeScript Best Practices
 
-TypeScript/JavaScript coding standards. Rules that must be followed for writing efficient, maintainable, and scalable TypeScript/JavaScript code.
 
 ## Quick Reference of Rules
 
