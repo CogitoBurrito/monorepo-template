@@ -1,8 +1,9 @@
 {
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
+    "outDir": "./dist",
     "noEmit": true
   },
-  "include": ["**/*.ts", "**/*.tsx", "*.ts", "*.js", "eslint.config.js"],
+  "include": ["*.tsx", "*.ts", "*.js", "eslint.config.js"],
   "exclude": ["node_modules", "dist", ".turbo"]
 }

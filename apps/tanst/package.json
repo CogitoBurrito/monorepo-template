@@ -3,12 +3,22 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=26"
+  },
+  "scripts": {
+    "lint": "eslint . --cache --cache-location .dist/eslint/.eslintcache",
+    "format": "prettier --write .",
+    "check-types": "tsc --noEmit"
+  },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/react": "catalog:",
     "eslint": "catalog:",
+    "prettier": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "typescript": "catalog:"
   }
 }

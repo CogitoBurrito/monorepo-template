@@ -6,7 +6,7 @@ catalogMode: prefer
 
 catalog:
   eslint: 10.8.0
-  eslint-plugin-perfectionist: 5.10.0
+  eslint-plugin-perfectionist: 5.10.1
   eslint-plugin-react-hooks: 7.1.1
   eslint-plugin-react-import: 2.1.0
   typescript: 6.0.3
@@ -15,9 +15,10 @@ catalog:
   react-dom: 19.2.8
   "@types/react": 19.2.18
   lefthook: 2.1.10
-  turbo: 2.10.7
-  '@eslint-react/eslint-plugin': 5.18.1
-  typescript-eslint: 8.65.0
+  turbo: 2.10.8
+  "@eslint-react/eslint-plugin": 5.18.2
+  typescript-eslint: 8.66.0
+  eslint-config-xo: 1.0.0
 
 allowBuilds:
   lefthook: true

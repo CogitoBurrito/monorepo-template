@@ -1,3 +1,17 @@
+<!-- intent-skills:start -->
+
+## Skill Loading
+
+Before editing files for a substantial task:
+
+- Run `pnpm dlx @tanstack/intent@latest list` from the workspace root to see available local skills.
+- If a listed skill matches the task, run `pnpm dlx @tanstack/intent@latest load <package>#<skill>` before changing files.
+- Use the loaded `SKILL.md` guidance while making the change.
+- Monorepos: when working across packages, run the skill check from the workspace root and prefer the local skill for the package being changed.
+- Multiple matches: prefer the most specific local skill for the package or concern you are changing; load additional skills only when the task spans multiple packages or concerns.
+
+<!-- intent-skills:end -->
+
 # AGENTS.md
 
 > **Maintenance:** This file must be kept in sync with the project. If the references here no longer match the actual project structure or code (tech stack, directories, commands, skills, etc.), update this file to reflect reality.
@@ -8,22 +22,25 @@
 
 TypeScript is used across the project for all apps and packages, except for the `eslint-config` package and its `eslint.config.js` file which are written in JavaScript.
 
-
 ### Frontend
+
 - Tanstack Start handles the frontend logic and routing.
 - Tanstack Query is used for data fetching and caching.
 - React is used for building the user interface.
 - TailwindCSS is used for styling the UI components.
 
 ### Backend
+
 - Node.js is used as the runtime environment for the backend.
 - Tanstack Start handles the backend logic and API routes.
 
 ### Testing
+
 - Vitest for TypeScript
 - Playwright for e2e tests
 
 ### Tooling
+
 - PNPM manages workspace dependencies and packages.
 - Turborepo orchestrates tasks across apps and packages.
 - ESLint is used for linting and code style enforcement.
@@ -31,7 +48,7 @@ TypeScript is used across the project for all apps and packages, except for the 
 
 ## Project Structure
 
-- `apps/*` — runnable applications. Each app owns its UI, entry points, and app-local config (`eslint.config.js`, `tsconfig.json`). 
+- `apps/*` — runnable applications. Each app owns its UI, entry points, and app-local config (`eslint.config.js`, `tsconfig.json`).
 - `packages/*` — shared packages consumed by apps:
   - `packages/eslint-config` — shared ESLint flat configs (`base.js` for TypeScript, `react.js` for React/hooks)
   - `packages/typescript-config` — shared tsconfig presets (`base.json`)
@@ -40,9 +57,11 @@ TypeScript is used across the project for all apps and packages, except for the 
 
 ## Development Guidelines
 
-- For TypeScript best practices follow skill: `typescript-best-practices`
-- For React best practices follow skill: `react-best-practices`
-- For coding style follow skill: `project-coding-style`
+Skills must be loaded before doing anything:
+
+- `typescript-best-practices`
+- `react-best-practices`
+- `project-coding-style`
 
 ## Behavioral Guidelines
 
@@ -51,6 +70,7 @@ TypeScript is used across the project for all apps and packages, except for the 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
 
 Before implementing:
+
 - State your assumptions explicitly. If uncertain, ask.
 - If multiple interpretations exist, present them - don't pick silently.
 - If a simpler approach exists, say so. Push back when warranted.
@@ -73,12 +93,14 @@ Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, sim
 **Touch only what you must. Clean up only your own mess.**
 
 When editing existing code:
+
 - Don't "improve" adjacent code, comments, or formatting.
 - Don't refactor things that aren't broken.
 - Match existing style, even if you'd do it differently.
 - If you notice unrelated dead code, mention it - don't delete it.
 
 When your changes create orphans:
+
 - Remove imports/variables/functions that YOUR changes made unused.
 - Don't remove pre-existing dead code unless asked.
 
@@ -89,11 +111,13 @@ The test: Every changed line should trace directly to the user's request.
 **Define success criteria. Loop until verified.**
 
 Transform tasks into verifiable goals:
+
 - "Add validation" → "Write tests for invalid inputs, then make them pass"
 - "Fix the bug" → "Write a test that reproduces it, then make it pass"
 - "Refactor X" → "Ensure tests pass before and after"
 
 For multi-step tasks, state a brief plan:
+
 ```
 1. [Step] → verify: [check]
 2. [Step] → verify: [check]
@@ -103,32 +127,38 @@ For multi-step tasks, state a brief plan:
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
 ### 5. Surface conflicts, don't average them
+
 If two existing patterns in the codebase contradict, don't blend them.
 Pick one (the more recent / more tested), explain why, and flag the other for cleanup.
 "Average" code that satisfies both rules is the worst code.
 
 ### 6. Read before you write
+
 Before adding code in a file, read the file's exports, the immediate caller, and any obvious shared utilities.
 If you don't understand why existing code is structured the way it is, ask before adding to it.
 "Looks orthogonal to me" is the most dangerous phrase in this codebase.
 
 ### 7. Tests verify intent, not just behavior
+
 Every test must encode WHY the behavior matters, not just WHAT it does.
 A test like `expect(getUserName()).toBe('John')` is worthless if the function takes a hardcoded ID.
 If you can't write a test that would fail when business logic changes, the function is wrong.
 
 ### 8. Checkpoint after every significant step
+
 After completing each step in a multi-step task: summarize what was done, what's verified, what's left.
 Don't continue from a state you can't describe back to me.
 If you lose track, stop and restate.
 
 ### 9. Match the codebase's conventions, even if you disagree
+
 If the codebase uses snake_case and you'd prefer camelCase: snake_case.
 If the codebase uses class-based components and you'd prefer hooks: class-based.
 Disagreement is a separate conversation. Inside the codebase, conformance > taste.
 If you genuinely think the convention is harmful, surface it. Don't fork it silently.
 
 ### 10. Fail loud
+
 If you can't be sure something worked, say so explicitly.
 "Migration completed" is wrong if 30 records were skipped silently.
 "Tests pass" is wrong if you skipped any.
