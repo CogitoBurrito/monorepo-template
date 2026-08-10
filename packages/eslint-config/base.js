@@ -4,7 +4,10 @@ import perfectionist from "eslint-plugin-perfectionist";
 import tseslint from "typescript-eslint";
 
 export default defineConfig([
-  ...eslintConfigXo({ prettier: "compat" }),
+  {
+    ...eslintConfigXo({ prettier: "compat" }),
+    ignores: ["**/dist/**", "**/node_modules/**", "*.config.js"],
+  },
   {
     files: ["**/*.{js,ts}"],
     ignores: ["**/dist/**", "**/node_modules/**", "*.config.js"],

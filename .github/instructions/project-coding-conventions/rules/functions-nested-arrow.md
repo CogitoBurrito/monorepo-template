@@ -95,4 +95,4 @@ A nested `function` declaration is hoisted within its enclosing function, which 
 ]
 ```
 
-Use arrow functions for all nested function definitions. Top-level or exported `function` declarations are still fine.
+Use arrow functions for all nested function definitions. Top-level or exported `function` declarations are still fine and are preferred by the `functions-prefer-function-keyword` rule.

@@ -14,17 +14,19 @@ applyTo: "**/*.ts, **/*.tsx"
 
 ### Control Flow
 
-| Rule                                                              | Guidance                                                          |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| [control-flow-no-nested-if](./rules/control-flow-no-nested-if.md)     | Avoid nested `if` statements; use guard clauses and early returns |
+| Rule                                                                        | Guidance                                                            |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [control-flow-no-nested-if](./rules/control-flow-no-nested-if.md)           | Avoid nested `if` statements; use guard clauses and early returns   |
 | [control-flow-no-nested-ternary](./rules/control-flow-no-nested-ternary.md) | Avoid nested ternary expressions; use early returns or a lookup map |
-| [control-flow-no-else](./rules/control-flow-no-else.md)               | Avoid `else` statements; return early instead                     |
+| [control-flow-no-else](./rules/control-flow-no-else.md)                     | Avoid `else` statements; return early instead                       |
 
 ### Functions
 
-| Rule                                                        | Guidance                                               |
-| ----------------------------------------------------------- | ------------------------------------------------------ |
-| [functions-nested-arrow](./rules/functions-nested-arrow.md) | Declare nested functions as arrow function expressions |
+| Rule                                                                              | Guidance                                                  |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| [functions-nested-arrow](./rules/functions-nested-arrow.md)                       | Declare nested functions as arrow function expressions    |
+| [functions-no-explicit-return-type](./rules/functions-no-explicit-return-type.md) | Omit explicit return types when TypeScript can infer them |
+| [functions-prefer-function-keyword](./rules/functions-prefer-function-keyword.md) | Prefer the `function` keyword for top-level functions     |
 
 ### Sorting
 

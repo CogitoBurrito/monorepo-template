@@ -1,5 +1,5 @@
 {
-  "name": "apps",
+  "name": "sync-skill",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -7,18 +7,21 @@
     "node": ">=26"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
     "lint": "eslint . --cache --cache-location .dist/eslint/.eslintcache",
     "format": "prettier --write .",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "sync": "pnpm build && node dist/index.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "yaml": "catalog:"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@types/react": "catalog:",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "typescript": "catalog:"
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }

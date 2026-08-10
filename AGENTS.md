@@ -2,20 +2,6 @@
 
 > **Maintenance:** This file must be kept in sync with the project. If the references here no longer match the actual project structure or code (tech stack, directories, commands, skills, etc.), update this file to reflect reality.
 
-<!-- intent-skills:start -->
-
-## Skill Loading
-
-Before editing files for a substantial task:
-
-- Run `pnpm dlx @tanstack/intent@latest list` from the workspace root to see available local skills.
-- If a listed skill matches the task, run `pnpm dlx @tanstack/intent@latest load <package>#<skill>` before changing files.
-- Use the loaded `SKILL.md` guidance while making the change.
-- Monorepos: when working across packages, run the skill check from the workspace root and prefer the local skill for the package being changed.
-- Multiple matches: prefer the most specific local skill for the package or concern you are changing; load additional skills only when the task spans multiple packages or concerns.
-
-<!-- intent-skills:end -->
-
 ## Tech stack in use
 
 ### Language
@@ -51,14 +37,11 @@ TypeScript is used across the project for all apps and packages, except for the 
 - `apps/*` — runnable applications. Each app owns its UI, entry points, and app-local config (`eslint.config.js`, `tsconfig.json`).
 - `packages/*` — shared packages consumed by apps:
   - `packages/eslint-config` — shared ESLint flat configs (`base.js` for TypeScript, `react.js` for React/hooks)
+  - `packages/sync-skill` — manual Node ESM CLI that synchronizes eligible TanStack Router package skills into `.agents/skills`
   - `packages/typescript-config` — shared tsconfig presets (`base.json`)
 - Root — orchestration only: `turbo.json` task pipeline, `lefthook.yml` git hooks, pnpm catalog, `AGENTS.md`
 - `.agents/skills/*` — project skills (`react-standards`, `typescript-javascript-standards`, `turborepo`, `coding-style`)
 
 ## Development Guidelines
 
-Please obey the following instructions:
-
-- project-coding-conventions
-- typescript-best-practices
-- react-best-practices
+You are not allowed to edit any eslint or prettier config files to bypass the lint errors. If you encounter a lint error, you must fix the underlying issue rather than suppressing it.
