@@ -11,16 +11,16 @@
     "sync-skills": "pnpm --filter sync-skill sync"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
     "lefthook": "catalog:",
     "prettier": "catalog:",
-    "turbo": "catalog:",
-    "@types/node": "catalog:",
-    "eslint": "catalog:"
+    "turbo": "catalog:"
   },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "11.20.0",
+      "version": "12.3.1",
       "onFail": "download"
     }
   },
