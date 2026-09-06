@@ -38,3 +38,14 @@ dist-ssr
 #turborepo
 
 .turbo
+.DS_Store
+*.local
+*.tsbuildinfo
+.env
+.nitro
+.tanstack
+.wrangler
+.output
+.vinxi
+__unconfig*
+todos.json

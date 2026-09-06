@@ -1,0 +1,39 @@
+{
+  "name": "@start-mono/search-state",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "peerDependencies": {
+    "@tanstack/react-router": "^1.170.32",
+    "react": "^19.2.0"
+  },
+  "devDependencies": {
+    "@tanstack/react-router": "1.170.32",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "22.20.1",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "jsdom": "^27.0.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "typescript": "6.0.3",
+    "vite": "8.2.2",
+    "vitest": "^4.0.0",
+    "zod": "4.5.4"
+  },
+  "dependencies": {
+    "@tanstack/react-pacer": "^0.23.0",
+    "@tanstack/react-store": "^0.11.1"
+  }
+}

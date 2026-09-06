@@ -1,0 +1,1 @@
+export { aboutContentQueryOptions } from './about'
