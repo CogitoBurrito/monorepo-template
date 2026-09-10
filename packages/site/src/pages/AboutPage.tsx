@@ -1,13 +1,10 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { aboutContentQueryOptions } from "@start-mono/query/about";
-import {
-  useSearchStateExperimental,
-  useSearchStateExperimentalMicrotask,
-} from "@start-mono/search-state";
+import { useSearchStateExperimentalMicrotask } from "@start-mono/search-state";
 
 export function AboutPage() {
   const { data: content } = useSuspenseQuery(aboutContentQueryOptions);
-  const [count, setCount] = useSearchStateExperimental({
+  const [count, setCount] = useSearchStateExperimentalMicrotask({
     from: "/about",
     key: "count",
   });

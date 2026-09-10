@@ -27,17 +27,31 @@ function createMicrotaskRouter(component: () => ReactElement | null) {
     validateSearch: z.object({
       bar: z.number().default(0),
       baz: z.number().default(0),
+      mode: z.enum(["all", "some"]).optional(),
+      optional: z.number().optional(),
     }),
     component,
   });
+  const otherRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/other",
+  });
 
   return createRouter({
-    routeTree: rootRoute.addChildren([fooRoute]),
+    routeTree: rootRoute.addChildren([fooRoute, otherRoute]),
     history: createMemoryHistory({
       initialEntries: ["/foo?bar=1&baz=10#section"],
     }),
     defaultPendingMinMs: 0,
   });
+}
+
+type MicrotaskTestRouter = ReturnType<typeof createMicrotaskRouter>;
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: MicrotaskTestRouter;
+  }
 }
 
 async function renderMicrotaskState() {

@@ -1,154 +1,158 @@
-import { useMemo } from "react";
-import { useRouter, useSearch } from "@tanstack/react-router";
-import type {
-  AnyRouter,
-  NavigateOptions,
-  RegisteredRouter,
-  ValidateId,
+import {
+  type AnyRouter,
+  type NavigateOptions,
+  type RegisteredRouter,
+  useRouter,
+  useSearch,
+  type ValidateId,
 } from "@tanstack/react-router";
+import { useMemo } from "react";
 
-type ConstrainLiteral<T, TConstraint, TDefault = TConstraint> =
-  (T & TConstraint) | TDefault;
-
-type SearchSchema<
-  TRouter extends AnyRouter,
-  TFrom extends keyof TRouter["routesById"],
-> = keyof TRouter["routesById"][TFrom]["types"]["searchSchema"];
-
-type AnyKey<TRouter extends AnyRouter, TKey extends string> = ConstrainLiteral<
-  TKey,
-  string &
-    {
-      [K in keyof TRouter["routesById"]]: SearchSchema<TRouter, K>;
-    }[keyof TRouter["routesById"]]
->;
-
-type FromKey<
-  TRouter extends AnyRouter,
-  TFrom extends string,
-  TKey extends string,
-> = ConstrainLiteral<
-  TKey,
-  string & SearchSchema<TRouter, TFrom & keyof TRouter["routesById"]>
->;
-
-type UseSearchStateExperimentalMicrotaskOptions<
-  TRouter extends AnyRouter,
-  TFrom extends string,
-  TStrict extends boolean,
-  TKey extends string,
-  TSelected,
-> = (
-  | {
-      from?: never;
-      strict: TStrict & false;
-      key: AnyKey<TRouter, TKey>;
-    }
-  | {
-      from: ValidateId<TRouter, TFrom>;
-      strict?: TStrict & true;
-      key: FromKey<TRouter, TFrom, TKey>;
-    }
-) & {
-  select?: (value: ValueFrom<TRouter, TFrom, TStrict, TKey>) => TSelected;
-};
-
-type ValueFrom<
-  TRouter extends AnyRouter,
-  TFrom,
-  TStrict extends boolean,
-  TKey extends string,
-> =
-  TStrict extends false ?
-    | undefined
-    | {
-        [K in keyof TRouter["routesById"]]: TKey extends (
-          keyof TRouter["routesById"][K]["types"]["searchSchema"]
-        ) ?
-          TRouter["routesById"][K]["types"]["searchSchema"][TKey]
-        : never;
-      }[keyof TRouter["routesById"]]
-  : TRouter["routesById"][TFrom &
-      keyof TRouter["routesById"]]["types"]["searchSchema"][TKey];
+export type SetSearchStateExperimentalMicrotask<Value> = (
+  value: ((previous: Value) => Value) | Value,
+  options?: SetSearchStateExperimentalMicrotaskOptions,
+) => void;
 
 export type SetSearchStateExperimentalMicrotaskOptions = Pick<
   NavigateOptions,
   | "hashScrollIntoView"
+  | "ignoreBlocker"
   | "reloadDocument"
   | "replace"
-  | "ignoreBlocker"
   | "resetScroll"
   | "viewTransition"
 >;
 
-export type SetSearchStateExperimentalMicrotask<TValue> = (
-  value: TValue | ((previous: TValue) => TValue),
-  options?: SetSearchStateExperimentalMicrotaskOptions,
-) => void;
-
-type StrictValue<
-  TRouter extends AnyRouter,
-  TFrom extends string,
-  TKey extends string,
-> = ValueFrom<TRouter, TFrom, true, TKey>;
-
-type LooseValue<TRouter extends AnyRouter, TKey extends string> = ValueFrom<
-  TRouter,
-  string,
-  false,
-  TKey
+type AnyKey<Router extends AnyRouter, Key extends string> = ConstrainLiteral<
+  Key,
+  string &
+    {
+      [K in keyof Router["routesById"]]: SearchSchema<Router, K>;
+    }[keyof Router["routesById"]]
 >;
 
+type ConstrainLiteral<T, Constraint, Default = Constraint> =
+  (Constraint & T) | Default;
+
+type FromKey<
+  Router extends AnyRouter,
+  From extends string,
+  Key extends string,
+> = ConstrainLiteral<
+  Key,
+  SearchSchema<Router, From & keyof Router["routesById"]> & string
+>;
+
+type LooseValue<Router extends AnyRouter, Key extends string> = ValueFrom<
+  Router,
+  string,
+  false,
+  Key
+>;
+
+type RouterStore = {
+  options: SetSearchStateExperimentalMicrotaskOptions | undefined;
+  scheduled: boolean;
+  search: Record<string, unknown> | undefined;
+};
+
+type SearchSchema<
+  Router extends AnyRouter,
+  From extends keyof Router["routesById"],
+> = keyof Router["routesById"][From]["types"]["searchSchema"];
+
+type StrictValue<
+  Router extends AnyRouter,
+  From extends string,
+  Key extends string,
+> = ValueFrom<Router, From, true, Key>;
+
+type UseSearchStateExperimentalMicrotaskOptions<
+  Router extends AnyRouter,
+  From extends string,
+  Strict extends boolean,
+  Key extends string,
+  Selected,
+> = (
+  | {
+      from: ValidateId<Router, From>;
+      key: FromKey<Router, From, Key>;
+      strict?: Strict & true;
+    }
+  | {
+      from?: never;
+      key: AnyKey<Router, Key>;
+      strict: false & Strict;
+    }
+) & {
+  select?: (value: ValueFrom<Router, From, Strict, Key>) => Selected;
+};
+
+type ValueFrom<
+  Router extends AnyRouter,
+  From,
+  Strict extends boolean,
+  Key extends string,
+> =
+  Strict extends false ?
+    | undefined
+    | {
+        [K in keyof Router["routesById"]]: Key extends (
+          keyof Router["routesById"][K]["types"]["searchSchema"]
+        ) ?
+          Router["routesById"][K]["types"]["searchSchema"][Key]
+        : never;
+      }[keyof Router["routesById"]]
+  : Router["routesById"][From &
+      keyof Router["routesById"]]["types"]["searchSchema"][Key];
 export function useSearchStateExperimentalMicrotask<
-  TRouter extends AnyRouter = RegisteredRouter,
-  TKey extends string = string,
-  TSelected = LooseValue<TRouter, TKey>,
+  Router extends AnyRouter = RegisteredRouter,
+  Key extends string = string,
+  Selected = LooseValue<Router, Key>,
 >(
   options: UseSearchStateExperimentalMicrotaskOptions<
-    TRouter,
+    Router,
     string,
     false,
-    TKey,
-    TSelected
+    Key,
+    Selected
   >,
 ): readonly [
-  state: TSelected,
-  setState: SetSearchStateExperimentalMicrotask<LooseValue<TRouter, TKey>>,
+  state: Selected,
+  setState: SetSearchStateExperimentalMicrotask<LooseValue<Router, Key>>,
 ];
 export function useSearchStateExperimentalMicrotask<
-  TRouter extends AnyRouter = RegisteredRouter,
-  TFrom extends string = string,
-  TKey extends string = string,
-  TSelected = StrictValue<TRouter, TFrom, TKey>,
+  Router extends AnyRouter = RegisteredRouter,
+  From extends string = string,
+  Key extends string = string,
+  Selected = StrictValue<Router, From, Key>,
 >(
   options: UseSearchStateExperimentalMicrotaskOptions<
-    TRouter,
-    TFrom,
+    Router,
+    From,
     true,
-    TKey,
-    TSelected
+    Key,
+    Selected
   >,
 ): readonly [
-  state: TSelected,
-  setState: SetSearchStateExperimentalMicrotask<
-    StrictValue<TRouter, TFrom, TKey>
-  >,
+  state: Selected,
+  setState: SetSearchStateExperimentalMicrotask<StrictValue<Router, From, Key>>,
 ];
 export function useSearchStateExperimentalMicrotask({
   from,
-  strict,
   key,
   select,
+  strict,
 }: {
   from?: string;
-  strict?: boolean;
   key: string;
   select?: (value: never) => unknown;
+  strict?: boolean;
 }): readonly [state: unknown, setState: unknown] {
   const searchOptions = useMemo(
     () => ({
       from,
-      select: (search: Record<string, unknown>) => {
+      select(search: Record<string, unknown>) {
         const value = search[key];
         return select ? select(value as never) : value;
       },
@@ -156,123 +160,137 @@ export function useSearchStateExperimentalMicrotask({
     }),
     [from, key, select, strict],
   );
-  const state = useSearch<AnyRouter, string, boolean, true, unknown>(
+  const state = useSearch<AnyRouter, string, boolean>(
     searchOptions as never,
-  );
+  ) as unknown;
 
   const router = useRouter();
   const setState = useMemo(
     () =>
       (
-        value: unknown | ((previous: unknown) => unknown),
+        value: ((previous: unknown) => unknown) | unknown,
         options?: SetSearchStateExperimentalMicrotaskOptions,
-      ) =>
-        setSearchValue(router, key, value, options),
+      ) => {
+        setSearchValue(router, key, value, options);
+      },
     [router, key],
   );
 
   return [state, setState];
 }
 
-type RouterStore = {
-  search: object | null;
-  options: SetSearchStateExperimentalMicrotaskOptions | null;
-  scheduled: boolean;
-};
-
 const routerStores = new WeakMap<AnyRouter, RouterStore>();
 
+function mergeOptions(
+  store: RouterStore,
+  options: SetSearchStateExperimentalMicrotaskOptions | undefined,
+) {
+  if (!options) {
+    return;
+  }
+
+  if (!store.options) {
+    store.options = { ...options };
+    return;
+  }
+
+  if (options.hashScrollIntoView !== undefined) {
+    store.options.hashScrollIntoView = options.hashScrollIntoView;
+  }
+
+  if (options.reloadDocument) {
+    store.options.reloadDocument = true;
+  }
+
+  if (options.replace !== undefined) {
+    store.options.replace =
+      store.options.replace === false ? false : options.replace;
+  }
+
+  if (options.ignoreBlocker) {
+    store.options.ignoreBlocker = true;
+  }
+
+  if (options.resetScroll) {
+    store.options.resetScroll = true;
+  }
+
+  if (options.viewTransition !== undefined) {
+    store.options.viewTransition = options.viewTransition;
+  }
+}
+
 /**
- * Router can chain synchronous navigations through its pending location, but
- * each changed location still reaches history and unchanged locations reload.
- * This coordinator keeps a burst to one navigation and skips equal values.
+ Router can chain synchronous navigations through its pending location, but
+ each changed location still reaches history and unchanged locations reload.
+ This coordinator keeps a burst to one navigation and skips equal values.
  */
-function setSearchValue<TValue>(
+function setSearchValue<Value>(
   router: AnyRouter,
   key: string,
-  value: TValue | ((previous: TValue) => TValue),
+  value: ((previous: Value) => Value) | Value,
   options?: SetSearchStateExperimentalMicrotaskOptions,
 ) {
-  let store = routerStores.get(router);
-  const previousSearch = store?.search ?? router.state.location.search;
-  const previousValue = previousSearch[
-    key as keyof typeof previousSearch
-  ] as TValue;
+  const existing = routerStores.get(router);
+  const previousSearch =
+    existing?.search ??
+    (router.state.location.search as Record<string, unknown>);
+  const previousValue = previousSearch[key] as Value;
   const nextValue =
     typeof value === "function" ?
-      (value as (previous: TValue) => TValue)(previousValue)
+      (value as (previous: Value) => Value)(previousValue)
     : value;
 
-  if (Object.is(nextValue, previousValue)) return;
+  if (Object.is(nextValue, previousValue)) {
+    return;
+  }
 
   const nextSearch = {
     ...previousSearch,
     [key]: nextValue,
   };
 
-  if (!store) {
-    store = {
-      search: null,
-      options: null,
-      scheduled: false,
-    };
-    routerStores.set(router, store);
-  }
+  const store: RouterStore = existing ?? {
+    options: undefined,
+    scheduled: false,
+    search: undefined,
+  };
+  routerStores.set(router, store);
 
   store.search = nextSearch;
   mergeOptions(store, options);
 
-  if (store.scheduled) return;
+  if (store.scheduled) {
+    return;
+  }
+
   store.scheduled = true;
 
   const unsubscribe = router.subscribe("onBeforeNavigate", () => {
-    store.search = null;
-    store.options = null;
+    store.search = undefined;
+    store.options = undefined;
     store.scheduled = false;
   });
 
   queueMicrotask(() => {
     unsubscribe();
-    const search = store.search;
-    if (!store.scheduled || !search) return;
+    const { search } = store;
+    if (!search || !store.scheduled) {
+      return;
+    }
 
     const navigationOptions = store.options;
 
     void router.navigate({
       ...navigationOptions,
       hash: router.state.location.hash,
+      replace: navigationOptions?.replace !== false,
       search,
       to: router.state.location.pathname,
-      replace: navigationOptions?.replace !== false,
     });
 
-    store.search = null;
-    store.options = null;
+    store.search = undefined;
+    store.options = undefined;
     store.scheduled = false;
   });
-}
-
-function mergeOptions(
-  store: RouterStore,
-  options: SetSearchStateExperimentalMicrotaskOptions | undefined,
-) {
-  if (!options) return;
-  if (!store.options) {
-    store.options = { ...options };
-    return;
-  }
-
-  if (options.hashScrollIntoView) {
-    store.options.hashScrollIntoView = options.hashScrollIntoView;
-  }
-  if (options.reloadDocument) store.options.reloadDocument = true;
-  if (options.replace !== undefined) {
-    store.options.replace =
-      store.options.replace === false ? false : options.replace;
-  }
-  if (options.ignoreBlocker) store.options.ignoreBlocker = true;
-  if (options.resetScroll) store.options.resetScroll = true;
-  if (options.viewTransition) {
-    store.options.viewTransition = options.viewTransition;
-  }
 }
