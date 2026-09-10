@@ -10,23 +10,21 @@ workspace package. Keep the application's normal TanStack Router `Register`
 declaration so route IDs and search keys can be inferred.
 
 ```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { useSearchState } from '@start-mono/search-state'
-import { z } from 'zod'
+import { createFileRoute } from "@tanstack/react-router";
+import { useSearchState } from "@start-mono/search-state";
+import { z } from "zod";
 
-export const Route = createFileRoute('/foo')({
+export const Route = createFileRoute("/foo")({
   validateSearch: z.object({ bar: z.number().default(0) }),
   component: MyComponent,
-})
+});
 
 function MyComponent() {
-  const [bar, setBar] = useSearchState({ from: '/foo', key: 'bar' })
+  const [bar, setBar] = useSearchState({ from: "/foo", key: "bar" });
 
   return (
-    <button onClick={() => setBar((previous) => previous + 1)}>
-      {bar}
-    </button>
-  )
+    <button onClick={() => setBar((previous) => previous + 1)}>{bar}</button>
+  );
 }
 ```
 
@@ -35,9 +33,9 @@ belong in `validateSearch`, not in the hook. With `z.number()` instead, the inco
 URL must already contain a valid `bar` value.
 
 ```ts
-setBar(2)
-setBar((previous) => previous + 1)
-setBar(3, { replace: false })
+setBar(2);
+setBar((previous) => previous + 1);
+setBar(3, { replace: false });
 ```
 
 `from` is a currently matched route ID, including for pathless or dynamic routes.
@@ -87,7 +85,7 @@ throws does so synchronously, before its value is queued.
 Handle asynchronous errors when they matter to the application:
 
 ```ts
-await setBar(2).catch(console.error)
+await setBar(2).catch(console.error);
 ```
 
 Native navigation blockers are not bypassed. In the current Router version a
@@ -104,9 +102,9 @@ methods to observe blocker decisions.
 side-by-side behavior comparisons, not as a replacement for `useSearchState`.
 
 ```tsx
-import { useSearchStateExperimental } from '@start-mono/search-state'
+import { useSearchStateExperimental } from "@start-mono/search-state";
 
-const [bar, setBar] = useSearchStateExperimental({ from: '/foo', key: 'bar' })
+const [bar, setBar] = useSearchStateExperimental({ from: "/foo", key: "bar" });
 ```
 
 It keeps this package's typed `{ from, key }` input and its `{ replace?: boolean }`
@@ -125,11 +123,56 @@ expose the PR's additional navigation options or `strict: false` API, keeping
 its comparison surface aligned with this package. Pacer's `Debouncer` owns its
 trailing URL-write timer.
 
-## Scope
+## Experimental Microtask Variant
 
-This implements the narrow setter API from Router PR #4552 with an additional
-optimistic state layer and throttled writes. It is not an implementation of every
-feature proposed in issue #4973.
+`useSearchStateExperimentalMicrotask` keeps the broader API and microtask
+batching behavior of the alternate implementation:
+
+```tsx
+import { useSearchStateExperimentalMicrotask } from "@start-mono/search-state";
+
+const [bar, setBar] = useSearchStateExperimentalMicrotask({
+  from: "/foo",
+  key: "bar",
+});
+```
+
+Synchronous setter calls share one `router.navigate()` call and functional
+updates read prior values from that pending batch. The hook reads Router state
+directly, so it does not expose an optimistic value before the microtask runs.
+An external navigation in the same tick cancels the pending write.
+
+Router can build synchronous navigations from its pending location, but it does
+not combine their commits: every changed `navigate()` can write history, and an
+unchanged location still triggers a load. The hook therefore keeps its own
+`Object.is` check and microtask batch.
+
+Pass `select` to derive the returned state and subscribe only to that result.
+The setter continues to update the complete value for `key`:
+
+```tsx
+const [isPositive, setBar] = useSearchStateExperimentalMicrotask({
+  from: "/foo",
+  key: "bar",
+  select: (bar) => bar > 0,
+});
+```
+
+The setter accepts `hashScrollIntoView`, `ignoreBlocker`, `reloadDocument`,
+`replace`, `resetScroll`, and `viewTransition`. It also supports Router's loose
+search mode for keys shared across routes:
+
+```tsx
+const [bar] = useSearchStateExperimentalMicrotask({
+  strict: false,
+  key: "bar",
+});
+```
+
+## Primary Hook Scope
+
+The primary hook and PR baseline implement the narrow setter API from Router PR
+#4552. They are not implementations of every feature proposed in issue #4973.
 
 - `ignoreBlocker`, `reloadDocument`, and `viewTransition` are not accepted.
 - Route masks are currently rejected before committing; hidden values are not
@@ -146,7 +189,9 @@ feature proposed in issue #4973.
 - `src/use-search-state.ts`: typed Router reads, optimistic subscription, and
   setter lifetime.
 - `src/use-search-state-experimental.ts`: lightweight optimistic PR #4552
-  comparison hook with microtask-batched URL writes.
+  comparison hook with debounced URL writes (`getUrlWriteDebounceMs`).
+- `src/use-search-state-experimental-microtask.ts`: direct Router-state variant
+  that batches synchronous updates in one microtask.
 - `src/queue-machine.ts`: immutable batch transformations, optimistic reads,
   and pending/in-flight state transitions.
 - `src/queue.ts`: Router lifecycle, cooldown scheduling, validation,

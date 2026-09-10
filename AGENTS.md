@@ -32,6 +32,10 @@ TypeScript is used across the project for all apps and packages, except for the 
 - ESLint is used for linting and code style enforcement.
 - Prettier is used for code formatting.
 
+### Shell
+
+Check the current shell is fish or bash before writing any shell scripts
+
 ## Project Structure
 
 - `apps/*` — runnable applications. Each app owns its UI, entry points, and app-local config (`eslint.config.js`, `tsconfig.json`).

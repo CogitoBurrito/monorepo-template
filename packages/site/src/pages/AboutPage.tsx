@@ -1,11 +1,20 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { aboutContentQueryOptions } from '@start-mono/query/about'
-import { useSearchStateExperimental } from '@start-mono/search-state'
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { aboutContentQueryOptions } from "@start-mono/query/about";
+import {
+  useSearchStateExperimental,
+  useSearchStateExperimentalMicrotask,
+} from "@start-mono/search-state";
 
 export function AboutPage() {
-  const { data: content } = useSuspenseQuery(aboutContentQueryOptions)
-  const [count, setCount] = useSearchStateExperimental({ from: '/about', key: 'count' })
-  const [input, setInput] = useSearchStateExperimental({ from: '/about', key: 'input' })
+  const { data: content } = useSuspenseQuery(aboutContentQueryOptions);
+  const [count, setCount] = useSearchStateExperimental({
+    from: "/about",
+    key: "count",
+  });
+  const [input, setInput] = useSearchStateExperimentalMicrotask({
+    from: "/about",
+    key: "input",
+  });
 
   return (
     <main className="page-wrap px-4 py-12">
@@ -42,5 +51,5 @@ export function AboutPage() {
         </div>
       </section>
     </main>
-  )
+  );
 }

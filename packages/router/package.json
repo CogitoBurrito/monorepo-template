@@ -14,15 +14,17 @@
   },
   "dependencies": {
     "@start-mono/query": "workspace:*",
-    "@tanstack/react-query": "^5.102.8",
-    "@tanstack/react-router": "latest",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "zod": "4.5.4"
+    "@tanstack/react-query": "catalog:",
+    "@tanstack/react-router": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
-    "typescript": "^6.0.2"
+    "@repo/typescript-config": "workspace:*",
+    "@tanstack/react-router-ssr-query": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:"
   }
 }

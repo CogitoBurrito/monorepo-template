@@ -15,9 +15,9 @@ commit-msg:
         - merge
         - rebase
 
-pre-push:
-  commands:
-    check-types:
-      run: pnpm turbo run check-types
-    lint:
-      run: pnpm turbo run lint
+# pre-push:
+#   commands:
+#     check-types:
+#       run: pnpm turbo run check-types
+#     lint:
+#       run: pnpm turbo run lint

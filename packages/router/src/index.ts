@@ -1,13 +1,16 @@
-import type { AppRouter } from './create-router'
+import type { router } from "./create-router";
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
-    router: AppRouter
+    router: typeof router;
   }
 }
 
-export { createAppRouterFactory } from './create-router'
-export type { AppRouteComponentMap, AppRouter } from './create-router'
+export { queryClient } from "./create-router";
+
+export { createAppRouterFactory } from "./create-router";
+export type { AppRouteComponentMap } from "./create-router";
+export type { FileRouteTypes, RootRouteChildren } from "./routeTree.gen";
 export {
   HeadContent,
   Link,
@@ -15,4 +18,4 @@ export {
   Scripts,
   getRouteApi,
   useRouter,
-} from '@tanstack/react-router'
+} from "@tanstack/react-router";
