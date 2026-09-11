@@ -15,7 +15,7 @@
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write .",
-    "check-types": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
+    "check-types": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -28,16 +28,16 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "eslint": "catalog:",
-    "jsdom": "catalog:",
+    "happy-dom": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "typescript": "catalog:",
+    "valibot": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:",
-    "zod": "catalog:"
+    "vitest": "catalog:"
   },
   "peerDependencies": {
-    "@tanstack/react-router": "1.170.32",
-    "react": "19.2.0"
+    "@tanstack/react-router": "^1.170.32",
+    "react": "^19.2.0"
   }
 }

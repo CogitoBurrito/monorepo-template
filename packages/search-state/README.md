@@ -12,10 +12,10 @@ declaration so route IDs and search keys can be inferred.
 ```tsx
 import { createFileRoute } from "@tanstack/react-router";
 import { useSearchStateExperimentalMicrotask } from "@jonsun/search-state";
-import { z } from "zod";
+import * as v from "valibot";
 
 export const Route = createFileRoute("/foo")({
-  validateSearch: z.object({ bar: z.number().default(0) }),
+  validateSearch: v.object({ bar: v.optional(v.number(), 0) }),
   component: MyComponent,
 });
 
@@ -97,8 +97,8 @@ pnpm --filter @jonsun/search-state test
 pnpm --filter @jonsun/search-state typecheck
 ```
 
-The typecheck also compiles the positive and negative type tests. Zod is a test
-dependency, not a runtime requirement; validation is delegated to Router.
+The typecheck also compiles the positive and negative type tests. Valibot is a
+test dependency, not a runtime requirement; validation is delegated to Router.
 
 ## References
 

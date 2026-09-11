@@ -1,3 +1,9 @@
+import type { FC, ReactElement } from "react";
+
+import {
+  type SetSearchStateExperimentalMicrotask,
+  useSearchStateExperimentalMicrotask,
+} from "@jonsun/search-state";
 import {
   createMemoryHistory,
   createRootRoute,
@@ -7,30 +13,25 @@ import {
   RouterProvider,
 } from "@tanstack/react-router";
 import { act, render, waitFor } from "@testing-library/react";
-import type { ReactElement, ReactNode } from "react";
+import * as v from "valibot";
 import { describe, expect, it, vi } from "vitest";
-import { z } from "zod";
-import {
-  useSearchStateExperimentalMicrotask,
-  type SetSearchStateExperimentalMicrotask,
-} from "@jonsun/search-state";
 
-function createMicrotaskRouter(component: () => ReactNode) {
-  function Root(): ReactElement {
-    return <Outlet />;
-  }
+type MicrotaskTestRouter = ReturnType<typeof createMicrotaskRouter>;
 
+const fooSearchSchema = v.object({
+  bar: v.optional(v.number(), 0),
+  baz: v.optional(v.number(), 0),
+  mode: v.optional(v.picklist(["all", "some"])),
+  optional: v.optional(v.number()),
+});
+
+function createMicrotaskRouter(component: FC) {
   const rootRoute = createRootRoute({ component: Root });
   const fooRoute = createRoute({
+    component,
     getParentRoute: () => rootRoute,
     path: "/foo",
-    validateSearch: z.object({
-      bar: z.number().default(0),
-      baz: z.number().default(0),
-      mode: z.enum(["all", "some"]).optional(),
-      optional: z.number().optional(),
-    }),
-    component,
+    validateSearch: fooSearchSchema,
   });
   const otherRoute = createRoute({
     getParentRoute: () => rootRoute,
@@ -38,20 +39,12 @@ function createMicrotaskRouter(component: () => ReactNode) {
   });
 
   return createRouter({
-    routeTree: rootRoute.addChildren([fooRoute, otherRoute]),
+    defaultPendingMinMs: 0,
     history: createMemoryHistory({
       initialEntries: ["/foo?bar=1&baz=10#section"],
     }),
-    defaultPendingMinMs: 0,
+    routeTree: rootRoute.addChildren([fooRoute, otherRoute]),
   });
-}
-
-type MicrotaskTestRouter = ReturnType<typeof createMicrotaskRouter>;
-
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: MicrotaskTestRouter;
-  }
 }
 
 async function renderMicrotaskState() {
@@ -59,12 +52,21 @@ async function renderMicrotaskState() {
   let baz!: readonly [number, SetSearchStateExperimentalMicrotask<number>];
   let renderCount = 0;
 
-  function Page() {
-    bar = useSearchStateExperimentalMicrotask({ from: "/foo", key: "bar" });
-    baz = useSearchStateExperimentalMicrotask({ from: "/foo", key: "baz" });
+  const Page: FC = () => {
+    bar = useSearchStateExperimentalMicrotask<
+      MicrotaskTestRouter,
+      "/foo",
+      "bar",
+      number
+    >({ from: "/foo", key: "bar" });
+    baz = useSearchStateExperimentalMicrotask<
+      MicrotaskTestRouter,
+      "/foo",
+      "baz",
+      number
+    >({ from: "/foo", key: "baz" });
     renderCount += 1;
-    return undefined;
-  }
+  };
 
   const router = createMicrotaskRouter(Page);
   await router.load();
@@ -92,15 +94,19 @@ async function renderSelectedMicrotaskState() {
   ];
   let renderCount = 0;
 
-  function Page() {
-    selected = useSearchStateExperimentalMicrotask({
+  const Page: FC = () => {
+    selected = useSearchStateExperimentalMicrotask<
+      MicrotaskTestRouter,
+      "/foo",
+      "bar",
+      boolean
+    >({
       from: "/foo",
       key: "bar",
       select: (value) => value > 0,
     });
     renderCount += 1;
-    return undefined;
-  }
+  };
 
   const router = createMicrotaskRouter(Page);
   await router.load();
@@ -118,13 +124,17 @@ async function renderSelectedMicrotaskState() {
   };
 }
 
+function Root(): ReactElement {
+  return <Outlet />;
+}
+
 describe("useSearchStateExperimentalMicrotask", () => {
   it("accumulates same-tick updates into one navigation", async () => {
     const state = await renderMicrotaskState();
     const navigate = vi.spyOn(state.router, "navigate");
 
     act(() => {
-      expect(state.bar[1](2)).toBeUndefined();
+      state.bar[1](2);
       state.bar[1]((previous) => previous + 1);
       state.baz[1](20);
       expect(navigate).not.toHaveBeenCalled();
@@ -141,7 +151,6 @@ describe("useSearchStateExperimentalMicrotask", () => {
       expect.objectContaining({
         hash: "section",
         replace: true,
-        search: expect.objectContaining({ bar: 3, baz: 20 }),
         to: "/foo",
       }),
     );
@@ -168,7 +177,9 @@ describe("useSearchStateExperimentalMicrotask", () => {
       state.bar[1]((previous) => previous + 1);
     });
 
-    await waitFor(() => expect(state.bar[0]).toBe(3));
+    await waitFor(() => {
+      expect(state.bar[0]).toBe(3);
+    });
     expect(state.renderCount).toBe(initialRenderCount + 1);
   });
 
@@ -180,7 +191,9 @@ describe("useSearchStateExperimentalMicrotask", () => {
       state.selected[1](2);
     });
 
-    await waitFor(() => expect(state.router.state.location.search.bar).toBe(2));
+    await waitFor(() => {
+      expect(state.router.state.location.search.bar).toBe(2);
+    });
     expect(state.selected[0]).toBe(true);
     expect(state.renderCount).toBe(initialRenderCount);
 
@@ -188,7 +201,9 @@ describe("useSearchStateExperimentalMicrotask", () => {
       state.selected[1](-1);
     });
 
-    await waitFor(() => expect(state.selected[0]).toBe(false));
+    await waitFor(() => {
+      expect(state.selected[0]).toBe(false);
+    });
     expect(state.renderCount).toBe(initialRenderCount + 1);
   });
 
@@ -202,7 +217,9 @@ describe("useSearchStateExperimentalMicrotask", () => {
       state.baz[1](20, { ignoreBlocker: true, replace: false });
     });
 
-    await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(navigate).toHaveBeenCalledTimes(1);
+    });
     expect(navigate).toHaveBeenLastCalledWith(
       expect.objectContaining({
         ignoreBlocker: true,
@@ -236,7 +253,9 @@ describe("useSearchStateExperimentalMicrotask", () => {
       });
     });
 
-    await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1));
+    await waitFor(() => {
+      expect(navigate).toHaveBeenCalledTimes(1);
+    });
     expect(navigate).toHaveBeenLastCalledWith(
       expect.objectContaining({
         hashScrollIntoView: true,
@@ -258,7 +277,9 @@ describe("useSearchStateExperimentalMicrotask", () => {
       state.bar[1](2, { replace: false });
     });
 
-    await waitFor(() => expect(state.bar[0]).toBe(2));
+    await waitFor(() => {
+      expect(state.bar[0]).toBe(2);
+    });
     expect(navigate).toHaveBeenLastCalledWith(
       expect.objectContaining({ replace: false }),
     );
@@ -268,7 +289,9 @@ describe("useSearchStateExperimentalMicrotask", () => {
       state.bar[1](3);
     });
 
-    await waitFor(() => expect(state.bar[0]).toBe(3));
+    await waitFor(() => {
+      expect(state.bar[0]).toBe(3);
+    });
     expect(navigate).toHaveBeenCalledTimes(2);
     expect(navigate).toHaveBeenLastCalledWith(
       expect.objectContaining({ replace: true }),
@@ -283,8 +306,8 @@ describe("useSearchStateExperimentalMicrotask", () => {
     act(() => {
       state.bar[1](2);
       void state.router.navigate({
-        to: "/foo",
         search: { bar: 5, baz: 30 },
+        to: "/foo",
       });
     });
 

@@ -2,10 +2,10 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    environment: "jsdom",
-    environmentOptions: { jsdom: { url: "http://localhost/" } },
-    setupFiles: ["./tests/setup.ts"],
+    environment: "happy-dom",
+    environmentOptions: { happyDom: { url: "http://localhost/" } },
     include: ["tests/**/*.test.ts", "tests/**/*.test.tsx"],
     restoreMocks: true,
+    setupFiles: ["./tests/setup.ts"],
   },
 });

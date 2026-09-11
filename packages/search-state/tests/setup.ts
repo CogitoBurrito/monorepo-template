@@ -7,6 +7,6 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-// jsdom does not implement scrolling; swallow scroll events instead of
+// happy-dom does not implement scrolling; swallow scroll events instead of
 // assigning over the global window.scrollTo.
-window.addEventListener("scroll", () => {}, { passive: true });
+window.addEventListener("scroll", vi.fn(), { passive: true });

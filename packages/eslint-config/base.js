@@ -1,40 +1,56 @@
-import eslintConfigXo from "eslint-config-xo";
-import { defineConfig } from "eslint/config";
 import perfectionist from "eslint-plugin-perfectionist";
 import tseslint from "typescript-eslint";
+import unicorn from 'eslint-plugin-unicorn';
+import { defineConfig } from "eslint/config";
+import js from '@eslint/js';
+import { importX } from 'eslint-plugin-import-x'
+import tsParser from '@typescript-eslint/parser'
+import regexpPlugin from "eslint-plugin-regexp"
+import vitest from '@vitest/eslint-plugin'
 
-export default defineConfig([
-  /**
-   * Global ignores must live in a config object that contains only `ignores`.
-   */
+export default defineConfig(
   {
-    ignores: ["**/dist/**", "**/node_modules/**", "*.config.js"],
+    ignores: ["**/routeTree.gen.ts", "**/dist/**"],
   },
-  /**
-   * `eslint-config-xo` returns an array of flat config objects, so it must be
-   * spread into the top-level array rather than spread into an object literal.
-   */
-  ...eslintConfigXo({ prettier: "compat" }),
   {
-    files: ["**/*.{js,ts}"],
-    ignores: ["**/dist/**", "**/node_modules/**", "*.config.js"],
-    extends: [perfectionist.configs["recommended-natural"]],
+    files: ["**/*.ts", "**/*.tsx"],
     plugins: {
-      "@typescript-eslint": tseslint.plugin,
+      unicorn,
+      'import-x': importX,
     },
-    rules: {
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          vars: "all",
-          args: "after-used",
-          ignoreRestSiblings: true,
-          argsIgnorePattern: /^_/.source,
-          caughtErrors: "all",
-          caughtErrorsIgnorePattern: /^_$/.source,
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.strict,
+      tseslint.configs.stylistic,
+      perfectionist.configs['recommended-natural'],
+      'unicorn/recommended',
+      'import-x/flat/recommended',
+      regexpPlugin.configs.recommended,
+
+    ],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        parser: tsParser,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    settings: {
+      'import-x/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
         },
-      ],
+      },
+    },
+
+    // Custom rule overrides (modify rule levels or disable rules)
+    rules: {
+      "import-x/order": "off",
+      "unicorn/consistent-class-member-order": "off",
+      "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "no-restricted-syntax": [
         "error",
         {
@@ -44,29 +60,42 @@ export default defineConfig([
         },
       ],
       "no-inner-declarations": ["error", "functions"],
-      "n/file-extension-in-import": [
+      "@typescript-eslint/only-throw-error": [
         "error",
-        "always",
         {
-          ".js": "never",
-        },
-      ],
+          "allow": [
+            {
+              "from": "package",
+              "package": "@tanstack/router-core",
+              "name": "Redirect"
+            },
+            {
+              "from": "package",
+              "package": "@tanstack/router-core",
+              "name": "NotFoundError"
+            }
+          ]
+        }
+      ]
+    },
+  },
+  {
+    files: ['tests/**'], // or any other pattern
+    plugins: {
+      vitest,
+    },
+    rules: {
+      ...vitest.configs.recommended.rules,
+    },
+    settings: {
+      vitest: {
+        typecheck: true,
+      },
     },
     languageOptions: {
-      /** Use TypeScript ESLint parser for TypeScript files */
-      parser: tseslint.parser,
-      parserOptions: {
-        /** Enable project service for better TypeScript integration */
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+      globals: {
+        ...vitest.environments.env.globals,
       },
     },
   },
-  /** Conflicting with perfectionist's sorting rules */
-  {
-    rules: {
-      "import-x/order": "off",
-      "unicorn/consistent-class-member-order": "off",
-    },
-  },
-]);
+);

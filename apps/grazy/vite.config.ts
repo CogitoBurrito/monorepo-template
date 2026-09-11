@@ -1,28 +1,31 @@
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
 import { nitro } from "nitro/vite";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { defineConfig } from "vite";
 
-const routerSourceDirectory = dirname(
+const routerSourceDirectory = path.dirname(
   fileURLToPath(import.meta.resolve("@jonsun/grazy-router")),
 );
 
 export default defineConfig({
-  resolve: { tsconfigPaths: true },
   plugins: [
     devtools(),
     nitro({ rollupConfig: { external: [/^@sentry\//] } }),
     tailwindcss(),
     tanstackStart({
       router: {
-        routesDirectory: join(routerSourceDirectory, "routes"),
-        generatedRouteTree: join(routerSourceDirectory, "routeTree.gen.ts"),
+        generatedRouteTree: path.join(
+          routerSourceDirectory,
+          "routeTree.gen.ts",
+        ),
+        routesDirectory: path.join(routerSourceDirectory, "routes"),
       },
     }),
     viteReact(),
   ],
+  resolve: { tsconfigPaths: true },
 });

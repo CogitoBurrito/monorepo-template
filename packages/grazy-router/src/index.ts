@@ -1,6 +1,7 @@
-import type { router } from "./create-router";
+import type { router } from "./create-router.js";
 
 declare module "@tanstack/react-router" {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Register {
     router: typeof router;
   }
@@ -12,10 +13,10 @@ export { createAppRouterFactory } from "./create-router";
 export type { AppRouteComponentMap } from "./create-router";
 export type { FileRouteTypes, RootRouteChildren } from "./routeTree.gen";
 export {
+  getRouteApi,
   HeadContent,
   Link,
   Outlet,
   Scripts,
-  getRouteApi,
   useRouter,
 } from "@tanstack/react-router";

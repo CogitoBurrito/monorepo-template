@@ -9,11 +9,19 @@
   },
   "devDependencies": {
     "@eslint-react/eslint-plugin": "catalog:",
+    "@eslint/js": "catalog:",
+    "@tanstack/eslint-plugin-query": "catalog:",
+    "@tanstack/eslint-plugin-router": "catalog:",
+    "@typescript-eslint/parser": "catalog:",
+    "@vitest/eslint-plugin": "catalog:",
     "eslint": "catalog:",
-    "eslint-config-xo": "catalog:",
+    "eslint-import-resolver-typescript": "catalog:",
+    "eslint-plugin-import-x": "catalog:",
     "eslint-plugin-perfectionist": "catalog:",
     "eslint-plugin-react-hooks": "catalog:",
     "eslint-plugin-react-import": "catalog:",
+    "eslint-plugin-regexp": "catalog:",
+    "eslint-plugin-unicorn": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:"
   }

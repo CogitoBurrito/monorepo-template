@@ -1,6 +1,6 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { aboutContentQueryOptions } from "@jonsun/grazy-query/about";
 import { useSearchStateExperimentalMicrotask } from "@jonsun/search-state";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export function AboutPage() {
   const { data: content } = useSuspenseQuery(aboutContentQueryOptions);
@@ -24,24 +24,28 @@ export function AboutPage() {
           {content.description}
         </p>
         <div className="mt-8 border-t border-[var(--line)] pt-5">
-          <label htmlFor="about-input" className="island-kicker mb-2 block">
+          <label className="island-kicker mb-2 block" htmlFor="about-input">
             Input
           </label>
           <input
+            className="demo-input max-w-xl"
             id="about-input"
+            onChange={(event) => {
+              setInput(event.target.value);
+            }}
+            placeholder="Type something"
             type="text"
             value={input}
-            onChange={(event) => { setInput(event.target.value); }}
-            className="demo-input max-w-xl"
-            placeholder="Type something"
           />
         </div>
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[var(--line)] pt-5">
           <span className="island-kicker">Counter</span>
           <button
-            type="button"
             className="rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.14)] px-5 py-2.5 text-sm font-semibold text-[var(--lagoon-deep)] transition hover:-translate-y-0.5 hover:bg-[rgba(79,184,178,0.24)]"
-            onClick={() => { setCount((previous) => previous + 1); }}
+            onClick={() => {
+              setCount((previous) => previous + 1);
+            }}
+            type="button"
           >
             Count: <span aria-live="polite">{count}</span>
           </button>

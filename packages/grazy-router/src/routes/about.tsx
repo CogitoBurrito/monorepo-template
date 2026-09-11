@@ -1,15 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { z } from "zod";
 import { aboutContentQueryOptions } from "@jonsun/grazy-query/about";
+import { createFileRoute } from "@tanstack/react-router";
+import * as v from "valibot";
+
+const aboutSearchSchema = v.object({
+  count: v.optional(v.number(), 0),
+  input: v.optional(v.string(), ""),
+});
 
 export const Route = createFileRoute("/about")({
-  validateSearch: z.object({
-    count: z.number().default(0),
-    input: z.string().default(""),
-  }),
-  loader: ({ context }) =>
+  loader: async ({ context }) =>
     context.queryClient.query({
       ...aboutContentQueryOptions,
       staleTime: "static",
     }),
+  validateSearch: aboutSearchSchema,
 });

@@ -2,8 +2,8 @@
 
 pre-commit:
   commands:
-    format:
-      run: pnpm exec prettier --write --list-different {staged_files}
+    preflight:
+      run: pnpm preflight
       glob: "*.{js,ts,jsx,tsx,json,yaml,yml,md,css,scss}"
       stage_fixed: true
 
@@ -15,9 +15,7 @@ commit-msg:
         - merge
         - rebase
 
-# pre-push:
-#   commands:
-#     check-types:
-#       run: pnpm turbo run check-types
-#     lint:
-#       run: pnpm turbo run lint
+pre-push:
+  commands:
+    preflight:
+      run: pnpm preflight

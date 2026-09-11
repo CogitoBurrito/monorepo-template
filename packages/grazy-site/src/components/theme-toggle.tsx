@@ -1,55 +1,37 @@
 import { useEffect, useState } from "react";
 
-type ThemeMode = "light" | "dark" | "auto";
+type ThemeMode = "auto" | "dark" | "light";
 
-function getInitialMode(): ThemeMode {
-  if (typeof window === "undefined") {
-    return "auto";
-  }
+const themeModes = ["auto", "dark", "light"] as const;
 
-  const stored = window.localStorage.getItem("theme");
-  if (stored === "light" || stored === "dark" || stored === "auto") {
-    return stored;
-  }
+const nextModes: Record<ThemeMode, ThemeMode> = {
+  auto: "light",
+  dark: "auto",
+  light: "dark",
+};
 
-  return "auto";
-}
-
-function applyThemeMode(mode: ThemeMode) {
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const resolved =
-    mode === "auto" ?
-      prefersDark ? "dark"
-      : "light"
-    : mode;
-
-  document.documentElement.classList.remove("light", "dark");
-  document.documentElement.classList.add(resolved);
-
-  if (mode === "auto") {
-    document.documentElement.removeAttribute("data-theme");
-  } else {
-    document.documentElement.setAttribute("data-theme", mode);
-  }
-
-  document.documentElement.style.colorScheme = resolved;
-}
+const themeLabels: Record<ThemeMode, string> = {
+  auto: "Auto",
+  dark: "Dark",
+  light: "Light",
+};
 
 export default function ThemeToggle() {
-  const [mode, setMode] = useState<ThemeMode>("auto");
+  const [mode, setMode] = useState<ThemeMode>(getInitialMode);
 
-  useEffect(() => {
-    const initialMode = getInitialMode();
-    setMode(initialMode);
-    applyThemeMode(initialMode);
-  }, []);
+  useEffect(
+    function syncThemeToDocument() {
+      applyThemeMode(mode);
+    },
+    [mode],
+  );
 
   useEffect(() => {
     if (mode !== "auto") {
       return;
     }
 
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const media = globalThis.matchMedia("(prefers-color-scheme: dark)");
     const onChange = () => applyThemeMode("auto");
 
     media.addEventListener("change", onChange);
@@ -58,15 +40,11 @@ export default function ThemeToggle() {
     };
   }, [mode]);
 
-  function toggleMode() {
-    const nextMode: ThemeMode =
-      mode === "light" ? "dark"
-      : mode === "dark" ? "auto"
-      : "light";
+  const toggleMode = () => {
+    const nextMode = nextModes[mode];
     setMode(nextMode);
-    applyThemeMode(nextMode);
-    window.localStorage.setItem("theme", nextMode);
-  }
+    globalThis.localStorage.setItem("theme", nextMode);
+  };
 
   const label =
     mode === "auto" ?
@@ -75,17 +53,53 @@ export default function ThemeToggle() {
 
   return (
     <button
-      type="button"
-      onClick={toggleMode}
       aria-label={label}
-      title={label}
       className="rounded-full border border-[var(--chip-line)] bg-[var(--chip-bg)] px-3 py-1.5 text-sm font-semibold text-[var(--sea-ink)] shadow-[0_8px_22px_rgba(30,90,72,0.08)] transition hover:-translate-y-0.5"
+      onClick={toggleMode}
+      suppressHydrationWarning
+      title={label}
+      type="button"
     >
-      {mode === "auto" ?
-        "Auto"
-      : mode === "dark" ?
-        "Dark"
-      : "Light"}
+      {themeLabels[mode]}
     </button>
   );
+}
+
+function applyThemeMode(mode: ThemeMode) {
+  const isPrefersDark = globalThis.matchMedia(
+    "(prefers-color-scheme: dark)",
+  ).matches;
+  const resolved = resolveTheme(mode, isPrefersDark);
+
+  document.documentElement.classList.remove("light", "dark");
+  document.documentElement.classList.add(resolved);
+
+  if (mode === "auto") {
+    delete document.documentElement.dataset.theme;
+  } else {
+    document.documentElement.dataset.theme = mode;
+  }
+
+  document.documentElement.style.colorScheme = resolved;
+}
+
+function getInitialMode(): ThemeMode {
+  if (typeof window === "undefined") {
+    return "auto";
+  }
+
+  const stored = globalThis.localStorage.getItem("theme");
+  const mode = themeModes.find((candidate) => candidate === stored);
+  return mode ?? "auto";
+}
+
+function resolveTheme(
+  mode: ThemeMode,
+  isPrefersDark: boolean,
+): "dark" | "light" {
+  if (mode === "auto") {
+    return isPrefersDark ? "dark" : "light";
+  }
+
+  return mode;
 }

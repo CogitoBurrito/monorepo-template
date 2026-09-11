@@ -1,1 +1,1 @@
-export { aboutContentQueryOptions } from "./about.js";
+export { aboutContentQueryOptions } from "./about";
