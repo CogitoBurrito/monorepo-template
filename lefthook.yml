@@ -17,3 +17,7 @@ pre-push:
 ai:
   copilot:
     postToolUse: validate
+
+validate:
+  jobs:
+    - run: pnpm preflight
