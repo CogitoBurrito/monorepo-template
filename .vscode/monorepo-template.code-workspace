@@ -1,0 +1,40 @@
+{
+  "folders": [
+    {
+      "name": "ROOT",
+      "path": "..",
+      "exclude": ["apps", "packages"],
+    },
+    {
+      "name": "apps/grazy",
+      "path": "../apps/grazy",
+    },
+    {
+      "name": "packages/eslint-config",
+      "path": "../packages/eslint-config",
+    },
+    {
+      "name": "packages/typescript-config",
+      "path": "../packages/typescript-config",
+    },
+    {
+      "name": "packages/grazy-query",
+      "path": "../packages/grazy-query",
+    },
+    {
+      "name": "packages/grazy-router",
+      "path": "../packages/grazy-router",
+    },
+    {
+      "name": "packages/grazy-site",
+      "path": "../packages/grazy-site",
+    },
+    {
+      "name": "packages/search-state",
+      "path": "../packages/search-state",
+    },
+  ],
+  "settings": {
+    "js/ts.tsdk.path": "ROOT/node_modules/typescript/lib",
+  },
+}

@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "postToolUse": [
+      {
+        "command": "/home/jonsun/monorepo-template/node_modules/.pnpm/lefthook-linux-x64@2.1.12/node_modules/lefthook-linux-x64/bin/lefthook run validate"
+      }
+    ]
+  },
+  "version": 1
+}

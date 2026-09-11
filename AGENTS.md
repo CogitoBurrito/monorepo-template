@@ -44,7 +44,7 @@ Check the current shell is fish or bash before writing any shell scripts
   - `packages/eslint-config` — shared ESLint flat configs (`base.js` for TypeScript, `react.js` for React/hooks)
   - `packages/sync-skill` — manual Node ESM CLI that synchronizes eligible TanStack Router package skills into `.agents/skills`
   - `packages/typescript-config` — shared tsconfig presets (`base.json`)
-- Root — orchestration only: `turbo.json` task pipeline, `lefthook.yml` git hooks, pnpm catalog, `AGENTS.md`
+- Root — orchestration only: `turbo.json` task pipeline, `lefthook.yml` git hooks + AI agent hook (`ai.copilot` → `lefthook run validate`), `scripts/preflight.sh` preflight entry, pnpm catalog, `AGENTS.md`
 
 ## Development Guidelines
 

@@ -4,10 +4,20 @@ pre-commit:
   commands:
     preflight:
       run: pnpm preflight
-      glob: "*.{js,ts,jsx,tsx,json,yaml,yml,md,css,scss}"
       stage_fixed: true
 
 pre-push:
   commands:
     preflight:
       run: pnpm preflight
+
+# AI agent hooks (lefthook `ai`, beta): running `lefthook install` generates
+# .github/hooks/lefthook.json so GitHub Copilot calls `lefthook run validate`
+# on its postToolUse event. Runs the same guarded script as the git hooks.
+ai:
+  copilot:
+    postToolUse: validate
+
+validate:
+  jobs:
+    - run: sh scripts/preflight.sh
