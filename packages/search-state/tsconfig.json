@@ -1,4 +1,10 @@
 {
-  "extends": "@repo/typescript-config/base.json",
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "extends": "@jonsun/typescript-config/base.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "vitest.config.ts"
+  ]
 }

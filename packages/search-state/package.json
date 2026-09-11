@@ -1,27 +1,27 @@
 {
-  "name": "@start-mono/search-state",
+  "name": "@jonsun/search-state",
   "private": true,
   "type": "module",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
       "import": "./src/index.ts",
       "default": "./src/index.ts"
     }
   },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=26.x.x"
+  },
   "scripts": {
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
+    "format": "prettier --write .",
+    "check-types": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "peerDependencies": {
-    "@tanstack/react-router": "^1.170.32",
-    "react": "^19.2.0"
-  },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@jonsun/eslint-config": "workspace:*",
+    "@jonsun/typescript-config": "workspace:*",
     "@tanstack/react-router": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/node": "catalog:",
@@ -35,5 +35,9 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "zod": "catalog:"
+  },
+  "peerDependencies": {
+    "@tanstack/react-router": "1.170.32",
+    "react": "19.2.0"
   }
 }

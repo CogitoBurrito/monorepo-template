@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "preflight": "turbo run lint format check-types",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "turbo run format",
     "check-types": "turbo run check-types",
-    "test": "turbo run test",
-    "sync-skills": "pnpm --filter sync-skill sync"
+    "test": "turbo run test"
   },
   "devDependencies": {
     "@types/node": "catalog:",

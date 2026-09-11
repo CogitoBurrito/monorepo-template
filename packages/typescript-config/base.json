@@ -6,7 +6,11 @@
     "esModuleInterop": true,
     "incremental": true,
     "isolatedModules": true,
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "preserve",
     "moduleResolution": "bundler",
     "noUncheckedIndexedAccess": true,
@@ -16,5 +20,8 @@
     "jsx": "react-jsx",
     "skipLibCheck": true,
     "target": "es2025"
-  }
+  },
+  "files": [
+    "./env.d.ts"
+  ]
 }

@@ -1,0 +1,35 @@
+{
+  "name": "@jonsun/grazy-query",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./about": {
+      "import": "./src/about.ts",
+      "default": "./src/about.ts"
+    }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=26.x.x"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "catalog:",
+    "@tanstack/react-start": "catalog:",
+    "react": "catalog:"
+  },
+  "devDependencies": {
+    "@jonsun/eslint-config": "workspace:*",
+    "@jonsun/typescript-config": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  }
+}

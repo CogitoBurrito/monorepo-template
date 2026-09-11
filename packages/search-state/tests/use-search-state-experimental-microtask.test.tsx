@@ -7,15 +7,15 @@ import {
   RouterProvider,
 } from "@tanstack/react-router";
 import { act, render, waitFor } from "@testing-library/react";
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import {
   useSearchStateExperimentalMicrotask,
   type SetSearchStateExperimentalMicrotask,
-} from "@start-mono/search-state";
+} from "@jonsun/search-state";
 
-function createMicrotaskRouter(component: () => ReactElement | null) {
+function createMicrotaskRouter(component: () => ReactNode) {
   function Root(): ReactElement {
     return <Outlet />;
   }
@@ -63,7 +63,7 @@ async function renderMicrotaskState() {
     bar = useSearchStateExperimentalMicrotask({ from: "/foo", key: "bar" });
     baz = useSearchStateExperimentalMicrotask({ from: "/foo", key: "baz" });
     renderCount += 1;
-    return null;
+    return undefined;
   }
 
   const router = createMicrotaskRouter(Page);
@@ -99,7 +99,7 @@ async function renderSelectedMicrotaskState() {
       select: (value) => value > 0,
     });
     renderCount += 1;
-    return null;
+    return undefined;
   }
 
   const router = createMicrotaskRouter(Page);

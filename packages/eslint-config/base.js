@@ -44,6 +44,13 @@ export default defineConfig([
         },
       ],
       "no-inner-declarations": ["error", "functions"],
+      "n/file-extension-in-import": [
+        "error",
+        "always",
+        {
+          ".js": "never",
+        },
+      ],
     },
     languageOptions: {
       /** Use TypeScript ESLint parser for TypeScript files */

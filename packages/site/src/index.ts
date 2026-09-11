@@ -1,5 +1,0 @@
-export { default as Footer } from './components/Footer'
-export { default as Header } from './components/Header'
-export { default as ThemeToggle } from './components/ThemeToggle'
-export { AboutPage } from './pages/AboutPage'
-export { HomePage } from './pages/HomePage'

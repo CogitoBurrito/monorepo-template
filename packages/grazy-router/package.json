@@ -1,0 +1,37 @@
+{
+  "name": "@jonsun/grazy-router",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=26.x.x"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@jonsun/grazy-query": "workspace:*",
+    "@tanstack/react-query": "catalog:",
+    "@tanstack/react-router": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@jonsun/eslint-config": "workspace:*",
+    "@jonsun/typescript-config": "workspace:*",
+    "@tanstack/react-router-ssr-query": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  }
+}

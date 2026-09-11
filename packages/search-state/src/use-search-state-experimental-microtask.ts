@@ -26,9 +26,9 @@ export type SetSearchStateExperimentalMicrotaskOptions = Pick<
 type AnyKey<Router extends AnyRouter, Key extends string> = ConstrainLiteral<
   Key,
   string &
-    {
-      [K in keyof Router["routesById"]]: SearchSchema<Router, K>;
-    }[keyof Router["routesById"]]
+  {
+    [K in keyof Router["routesById"]]: SearchSchema<Router, K>;
+  }[keyof Router["routesById"]]
 >;
 
 type ConstrainLiteral<T, Constraint, Default = Constraint> =
@@ -75,15 +75,15 @@ type UseSearchStateExperimentalMicrotaskOptions<
   Selected,
 > = (
   | {
-      from: ValidateId<Router, From>;
-      key: FromKey<Router, From, Key>;
-      strict?: Strict & true;
-    }
+    from: ValidateId<Router, From>;
+    key: FromKey<Router, From, Key>;
+    strict?: Strict & true;
+  }
   | {
-      from?: never;
-      key: AnyKey<Router, Key>;
-      strict: false & Strict;
-    }
+    from?: never;
+    key: AnyKey<Router, Key>;
+    strict: false & Strict;
+  }
 ) & {
   select?: (value: ValueFrom<Router, From, Strict, Key>) => Selected;
 };
@@ -95,16 +95,16 @@ type ValueFrom<
   Key extends string,
 > =
   Strict extends false ?
-    | undefined
-    | {
-        [K in keyof Router["routesById"]]: Key extends (
-          keyof Router["routesById"][K]["types"]["searchSchema"]
-        ) ?
-          Router["routesById"][K]["types"]["searchSchema"][Key]
-        : never;
-      }[keyof Router["routesById"]]
+  | undefined
+  | {
+    [K in keyof Router["routesById"]]: Key extends (
+      keyof Router["routesById"][K]["types"]["searchSchema"]
+    ) ?
+    Router["routesById"][K]["types"]["searchSchema"][Key]
+    : never;
+  }[keyof Router["routesById"]]
   : Router["routesById"][From &
-      keyof Router["routesById"]]["types"]["searchSchema"][Key];
+  keyof Router["routesById"]]["types"]["searchSchema"][Key];
 export function useSearchStateExperimentalMicrotask<
   Router extends AnyRouter = RegisteredRouter,
   Key extends string = string,
@@ -239,7 +239,7 @@ function setSearchValue<Value>(
   const nextValue =
     typeof value === "function" ?
       (value as (previous: Value) => Value)(previousValue)
-    : value;
+      : value;
 
   if (Object.is(nextValue, previousValue)) {
     return;
@@ -280,7 +280,6 @@ function setSearchValue<Value>(
     }
 
     const navigationOptions = store.options;
-
     void router.navigate({
       ...navigationOptions,
       hash: router.state.location.hash,

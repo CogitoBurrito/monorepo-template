@@ -1,17 +1,17 @@
-# @start-mono/search-state
+# @jonsun/search-state
 
 A typed, optimistic search-parameter hook for TanStack React Router. It uses the
 existing router and route schemas; no additional provider is required.
 
 ## Usage
 
-Add `@start-mono/search-state` as a `workspace:*` dependency of the consuming
+Add `@jonsun/search-state` as a `workspace:*` dependency of the consuming
 workspace package. Keep the application's normal TanStack Router `Register`
 declaration so route IDs and search keys can be inferred.
 
 ```tsx
 import { createFileRoute } from "@tanstack/react-router";
-import { useSearchStateExperimentalMicrotask } from "@start-mono/search-state";
+import { useSearchStateExperimentalMicrotask } from "@jonsun/search-state";
 import { z } from "zod";
 
 export const Route = createFileRoute("/foo")({
@@ -93,8 +93,8 @@ microtask batch.
 Run from the repository root:
 
 ```sh
-pnpm --filter @start-mono/search-state test
-pnpm --filter @start-mono/search-state typecheck
+pnpm --filter @jonsun/search-state test
+pnpm --filter @jonsun/search-state typecheck
 ```
 
 The typecheck also compiles the positive and negative type tests. Zod is a test

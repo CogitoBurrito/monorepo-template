@@ -14,11 +14,12 @@ TypeScript is used across the project for all apps and packages, except for the 
 - Tanstack Query is used for data fetching and caching.
 - React is used for building the user interface.
 - TailwindCSS is used for styling the UI components.
+- HeroUI is used as the component library.
 
 ### Backend
 
 - Node.js is used as the runtime environment for the backend.
-- Tanstack Start handles the backend logic and API routes.
+- Hono handles the backend logic and API routes.
 
 ### Testing
 
@@ -44,7 +45,6 @@ Check the current shell is fish or bash before writing any shell scripts
   - `packages/sync-skill` — manual Node ESM CLI that synchronizes eligible TanStack Router package skills into `.agents/skills`
   - `packages/typescript-config` — shared tsconfig presets (`base.json`)
 - Root — orchestration only: `turbo.json` task pipeline, `lefthook.yml` git hooks, pnpm catalog, `AGENTS.md`
-- `.agents/skills/*` — project skills (`react-standards`, `typescript-javascript-standards`, `turborepo`, `coding-style`)
 
 ## Development Guidelines
 

@@ -7,4 +7,6 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-window.scrollTo = vi.fn();
+// jsdom does not implement scrolling; swallow scroll events instead of
+// assigning over the global window.scrollTo.
+window.addEventListener("scroll", () => {}, { passive: true });
