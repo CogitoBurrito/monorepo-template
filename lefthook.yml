@@ -1,5 +1,11 @@
 # yaml-language-server: $schema=https://json.schemastore.org/lefthook.json
 
+# Source a shared sh script before running any hook commands. Hook processes
+# (e.g. VS Code's Git extension or the Copilot agent) can run with a stripped
+# PATH that misses version-manager-managed tools; lefthookrc discovers
+# node/pnpm from well-known locations so the commands below can find them.
+rc: lefthookrc
+
 pre-commit:
   commands:
     preflight:
