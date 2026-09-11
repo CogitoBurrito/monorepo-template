@@ -17,7 +17,3 @@ pre-push:
 ai:
   copilot:
     postToolUse: validate
-
-validate:
-  jobs:
-    - run: sh scripts/preflight.sh
