@@ -1,0 +1,36 @@
+{
+  "name": "@jonsun/turborepo-remote-cache",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Self-hosted Turborepo Remote Cache server implementing the Turborepo Remote Cache API with Hono.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "start": "node .output/server/index.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check-types": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "wrangler": "wrangler"
+  },
+  "dependencies": {
+    "@hono/standard-validator": "catalog:",
+    "@standard-schema/spec": "catalog:",
+    "hono": "^4.10.7",
+    "unstorage": "catalog:",
+    "valibot": "^1.5.0"
+  },
+  "devDependencies": {
+    "@jonsun/eslint-config": "workspace:*",
+    "@jonsun/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "nitro": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "wrangler": "catalog:"
+  }
+}

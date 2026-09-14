@@ -232,3 +232,149 @@ List the company once with each role as a sub-entry showing clear progression. T
 Deliver the document as clean markdown. If the user needs a formatted file, offer to create it as a .md or .txt that they can paste into their preferred tool (Google Docs, Word, Canva). Do not attempt to generate .docx or .pdf files directly.
 
 For "both" mode, deliver the resume first, then the cover letter, in the same response.
+
+## CV
+You can use this as a source of information when crafting the cover letter.
+```markdown
+ Jon Sun
+
+\+64 210473625 \- Jon.sun30@gmail.com&nbsp;
+
+About Me
+
+&nbsp;
+
+Senior software engineer with 7 years building complex, real-time product experiences in React and TypeScript across finance, insurance, and virtual training domains. Track record of leading frontend architecture — micro-frontends, design systems, and shared component libraries — while mentoring engineers and setting AI-assisted development standards. Currently building digital life insurance experiences for Fidelity Life and Westpac.
+
+&nbsp;
+
+Experience
+
+&nbsp;
+
+**Senior React Developer**	08/2024 \- Present&nbsp;
+
+Fidelity Life Assurance | New Zealand
+
+Developing an online life insurance platform for Fidelity Life and Westpac, featuring streamlined questionnaires and real-time feedback on underwriting assessments and quotes.
+
+* Built the digital life insurance experience using React.js, TypeScript, Redux Toolkit, React Hook Form, and Module Federation micro-frontends, supporting real-time feedback and conditional logic in underwriting assessments.  
+* Led the architecture and development of a multi-theme React component library of 18 components serving 3 brands (Westpac, Fidelity, NZHL), collaborating with UX designers to ensure visual consistency and scalability across brands.  
+* Set the standard for AI-assisted coding across the company: wrote the React and TypeScript coding instructions used with AI tooling, and served on the AI champion working group advising the business on responsible AI adoption — improving development speed and code consistency.  
+* Mentored 2 backend developers into React development, guiding them through complex feature delivery until they shipped production bug fixes independently within two weeks.  
+* Integrated an event-driven architecture using SignalR to support real-time updates and seamless user communication.  
+* Led infrastructure planning, performance tuning, and CI/CD automation as part of a cross-functional team.
+
+**Senior Front-End Developer**	01/2023 \- 08/2024
+
+PwC | New Zealand&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+Led the development of large-scale foreign exchange risk management web applications in a collaborative, cross-functional team environment. Drove business growth by delivering innovative technology solutions that address the unique needs of these organisations.
+
+* Delivered a foreign exchange risk management platform using Next.js, TypeScript, Tailwind CSS, and React Query, integrating real-time data visualisation and advanced state handling.  
+* Introduced React Server Components, and Partial Prerendering (PPR) streaming strategies, reducing initial load times by over 20%.  
+* Built and maintained internal component libraries with Storybook, promoting design consistency across teams.  
+* Championed end-to-end test automation using Playwright, improving early bug detection and developer velocity.  
+* Mentored junior developers, facilitated technical workshops, and raised code quality through code reviews and pair programming.
+
+&nbsp;
+
+**Full Stack Web Developer**	01/2020 – 12/2022&nbsp;
+
+Gallagher | New Zealand
+
+Developed an AWS-based cloud kiosk education system as part of an agile squad.
+
+* Led the refactoring of a legacy web application using TypeScript, Next.js, and Tailwind CSS.  
+* Engineered RESTful APIs with Nest.js and PostgreSQL, integrating third-party services and handling data serialisation for front-end consumption.&nbsp;  
+* Led frontend performance optimisation across multiple projects, advising teams on concrete improvements.  
+* Developed a cloud-based kiosk education system utilising AWS services including S3, VPC, ECS, EC2, EBS, CDK, Route 53, and Global Accelerator.  
+* Configured the development toolchain, conducted code reviews, and mentored junior front-end developers.
+
+Open Source Contributions
+
+&nbsp;
+
+* [**nuqs**](https://github.com/47ng/nuqs/issues/402) — Contributed during the project's early stages, now an influential library in the Next.js ecosystem. Recommended the ‘useTransition’ pattern ([https://github.com/47ng/nuqs/issues/402](https://github.com/47ng/nuqs/issues/402)) for the library's API and fixed a TypeScript discriminated union issue ([https://github.com/47ng/nuqs/pull/406](https://github.com/47ng/nuqs/pull/406), [https://github.com/47ng/nuqs/pull/410](https://github.com/47ng/nuqs/pull/410)).  
+* [**DefinitelyTyped**](https://github.com/DefinitelyTyped/DefinitelyTyped/pull/58868) — Improved developer experience and type safety in TypeScript definition packages ([https://github.com/DefinitelyTyped/DefinitelyTyped/pull/58868](https://github.com/DefinitelyTyped/DefinitelyTyped/pull/58868)).  
+* **TanStack Router** —Contributed to the trending React router. Fixed a TypeScript error. ([https://github.com/TanStack/router/pull/3605](https://github.com/TanStack/router/pull/3605))  
+* **eslint-config-xo** — Added a new rule to a famous ESLint rule set ([https://github.com/xojs/eslint-config-xo/pull/83](https://github.com/xojs/eslint-config-xo/pull/83)).
+
+&nbsp;
+
+Education and Skills
+
+&nbsp;
+
+Waikato Institute of Technology | **BAppIT**, Majoring in Software Engineering, Grade: A+	Graduated 12/2019
+
+&nbsp;
+
+* **Frontend:** React.js, Next.js, Tailwind CSS, CSS-in-JS, TypeScript, React Query, Motion, Zustand (Redux), TanStack, Expo (React Native)  
+* **Backend:** Express.js (RESTful APIs), Hono, Prisma, PostgreSQL  
+* **DevOps:** AWS SDK, Terraform, GitHub Actions, Docker, Azure DevOps  
+* **Testing:** Vitest (Jest), Playwright  
+* **Toolchain:** Monorepo configuration, Vite, ESLint  
+* **Leadership:** Mentoring, technical workshops, AI-assisted development standards, cross-functional collaboration
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+Volunteer & Awards
+
+&nbsp;
+
+**Rotary Youth Leadership Award (RYLA)**	05/2024
+
+Recognises outstanding young leaders demonstrating commitment to service, leadership, and personal development.
+
+&nbsp;
+
+**Community Volunteer**	01/2020 – Present
+
+Rotary | New Zealand
+
+Support the annual Chefs' Night Out fundraising event, raising over $20,000 per year for Hospice, local Rotary youth projects, and the Rotary Foundation. Contributed to native revegetation for the Te Awa River Ride and ANZAC Day services.
+```
+## Template
+
+Personal Template as reference to give the cover letter a consistent structure and personal touch.
+```markdown
+Jon Sun
+
+\+64 210473625
+
+[jon.sun30@gmail.com](mailto:jon.sun30@gmail.com)
+
+Dear First Table Hiring Team,
+
+As a foodie, I am very excited to apply for the Front-end Engineer position at First Table. I bring over seven years of commercial experience building user-facing web applications using React and TypeScript. I focus on turning complex product requirements into clean, performant, and intuitive customer experiences.
+
+**Here is how my experience maps to what you are looking for:**&nbsp;
+
+* **From Design to Launch:** At Fidelity Life, I was a key team member for the front-end delivery of a customer-facing digital life insurance journey built for direct users and Westpac partners. The goal was to convert a lengthy, static underwriting process into an interactive, real-time questionnaire.  
+* **Collaborative UI Design:** I engineered a multi-theme React component library in close collaboration with UX designers to ensure visual consistency, accessibility, and brand alignment across white-labelled channels.  
+* **Execution & Performance:** Using React, TypeScript, and Redux Toolkit, I implemented conditional logic and real-time feedback mechanisms that updated quote estimates instantly as customers completed each question.  
+* **React, Next.js & TypeScript:** At PwC, I delivered a high-volume foreign exchange risk management platform using Next.js, TypeScript, and Tailwind CSS. By adopting React Server Components and streaming techniques, I cut initial page load times by over 20%.  
+* **Growth Mindset:** While my commercial track record is web-focused, I actively build with React Native and Expo outside of work.  
+* **Pragmatic Tooling & Testing:** I use modern AI-assisted coding workflows to increase development velocity and implement Playwright automated end-to-end tests to protect user-critical paths.
+
+I approach software engineering with a pragmatic, collaborative mindset. This is reflected in my open-source contributions to the early stages of [*nuqs*](https://github.com/47ng/nuqs/issues/402)—which has now become a very influential project in the Next.js ecosystem (where I recommended implementing a useTransition pattern and fixing a TypeScript discriminated union issue)—and [*DefinitelyTyped*](https://github.com/DefinitelyTyped/DefinitelyTyped/pull/58868), where I focused on improving developer experience and type safety.
+
+Thank you for your time and consideration. I look forward to discussing how my experience can contribute to First Table's web and mobile platforms.
+
+Kind regards,  
+Jon Sun
+
+```

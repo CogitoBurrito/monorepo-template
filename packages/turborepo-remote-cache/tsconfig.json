@@ -1,0 +1,15 @@
+{
+  "extends": "@jonsun/typescript-config/base.json",
+  "compilerOptions": {
+    "types": ["node", "./worker-configuration.d.ts"]
+  },
+  "include": [
+    "server.ts",
+    "nitro.config.ts",
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "vitest.config.ts",
+    "worker-config.d.ts",
+    "vite.config.ts"
+  ]
+}

@@ -48,7 +48,14 @@ catalog:
   '@vitest/eslint-plugin': 1.6.27
   '@tanstack/eslint-plugin-query': 5.102.8
   '@tanstack/eslint-plugin-router': 1.162.0
+  '@hono/cli': ^0.1.11
+  '@hono/standard-validator': ^0.4.0
+  '@standard-schema/spec': ^1.1.0
+  wrangler: ^4.130.0
+  unstorage: ^1.17.5
 
 allowBuilds:
+  esbuild: true
   lefthook: true
   unrs-resolver: true
+  workerd: true

@@ -10,7 +10,7 @@ import vitest from '@vitest/eslint-plugin'
 
 export default defineConfig(
   {
-    ignores: ["**/routeTree.gen.ts", "**/dist/**"],
+    ignores: ["**/routeTree.gen.ts", "**/worker-configuration.d.ts", "**/dist/**"],
   },
   {
     files: ["**/*.ts", "**/*.tsx"],
@@ -48,6 +48,12 @@ export default defineConfig(
 
     // Custom rule overrides (modify rule levels or disable rules)
     rules: {
+      // `cloudflare:*` imports are runtime-provided virtual modules (resolved by
+      // wrangler/nitro at build time), so no static resolver can locate them.
+      "import-x/no-unresolved": ["error", { ignore: ["cloudflare:"] }],
+      // TypeScript resolves extensionless imports; requiring `.js` suffixes
+      // conflicts with how the source files are written.
+      "import-x/extensions": "off",
       "import-x/order": "off",
       "unicorn/consistent-class-member-order": "off",
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
