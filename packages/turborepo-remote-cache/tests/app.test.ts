@@ -1,11 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-import type {
-  ArtifactRecord,
-  ArtifactRepo,
-} from "../src/features/artifacts/repo.js";
+import type { ArtifactRecord } from "../src/features/artifacts/types";
 
-import { createApp } from "../src/index.js";
+import { artifactRepo } from "../src/features/artifacts/repo";
+import app from "../src/index";
 
 const hash = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
 const missingHash =
@@ -21,13 +19,15 @@ const stored: ArtifactRecord = {
 };
 
 /**
- * In-memory repo spy that also records which repo methods were called, so
- * the HEAD short-circuit can be verified to avoid loading the body.
+ * In-memory repo spy installed onto the shared {@link artifactRepo}; also
+ * records which repo methods were called, so the HEAD short-circuit can be
+ * verified to avoid loading the body. Spies are restored between tests by
+ * the `restoreMocks` vitest option.
  */
 function createRepo(
-  overrides: Partial<ArtifactRepo> = {},
-): ArtifactRepo & { finds: string[]; summaries: string[] } {
-  const repo = {
+  overrides: Partial<typeof artifactRepo> = {},
+): typeof artifactRepo & { finds: string[]; summaries: string[] } {
+  const repo: typeof artifactRepo & { finds: string[]; summaries: string[] } = {
     find: async (team: string, h: string) => {
       repo.finds.push(`${team}/${h}`);
 
@@ -50,13 +50,25 @@ function createRepo(
     summaries: [] as string[],
   };
 
-  return Object.assign(repo, overrides);
+  vi.spyOn(artifactRepo, "find").mockImplementation(
+    overrides.find ?? repo.find,
+  );
+  vi.spyOn(artifactRepo, "findSummaries").mockImplementation(
+    overrides.findSummaries ?? repo.findSummaries,
+  );
+  vi.spyOn(artifactRepo, "findSummary").mockImplementation(
+    overrides.findSummary ?? repo.findSummary,
+  );
+  vi.spyOn(artifactRepo, "save").mockImplementation(
+    overrides.save ?? repo.save,
+  );
+
+  return repo;
 }
 
 describe("HEAD /artifacts/:hash", () => {
   it("short-circuits via the head shortcut, returning headers only", async () => {
     const repo = createRepo();
-    const app = createApp({ repo });
 
     const response = await app.request(`/artifacts/${hash}`, {
       method: "HEAD",
@@ -75,7 +87,7 @@ describe("HEAD /artifacts/:hash", () => {
   });
 
   it("returns 404 with the spec error body for missing artifacts", async () => {
-    const app = createApp({ repo: createRepo() });
+    createRepo();
 
     const response = await app.request(`/artifacts/${missingHash}`, {
       method: "HEAD",
@@ -88,7 +100,6 @@ describe("HEAD /artifacts/:hash", () => {
 
   it("scopes the head lookup by team query parameters", async () => {
     const repo = createRepo();
-    const app = createApp({ repo });
 
     const response = await app.request(`/artifacts/${hash}?teamId=team_1`, {
       method: "HEAD",
@@ -100,7 +111,6 @@ describe("HEAD /artifacts/:hash", () => {
 
   it("runs the route validators before the shortcut", async () => {
     const repo = createRepo();
-    const app = createApp({ repo });
 
     const response = await app.request("/artifacts/not-a-hash", {
       method: "HEAD",
@@ -116,7 +126,6 @@ describe("HEAD /artifacts/:hash", () => {
 describe("GET /artifacts/:hash", () => {
   it("returns the artifact body with metadata headers", async () => {
     const repo = createRepo();
-    const app = createApp({ repo });
 
     const response = await app.request(`/artifacts/${hash}`);
 
@@ -131,7 +140,7 @@ describe("GET /artifacts/:hash", () => {
   });
 
   it("returns 404 for missing artifacts", async () => {
-    const app = createApp({ repo: createRepo() });
+    createRepo();
 
     const response = await app.request(`/artifacts/${missingHash}`);
 
@@ -145,7 +154,7 @@ describe("GET /artifacts/:hash", () => {
 
 describe("POST /artifacts", () => {
   it("maps found artifacts to info and missing hashes to null", async () => {
-    const app = createApp({ repo: createRepo() });
+    createRepo();
 
     const response = await app.request("/artifacts", {
       body: JSON.stringify({ hashes: [hash, "missing"] }),
@@ -164,7 +173,7 @@ describe("POST /artifacts", () => {
 describe("PUT /artifacts/:hash", () => {
   it("stores the artifact and echoes the download URL", async () => {
     const saves: (readonly [string, string, number, string])[] = [];
-    const repo = createRepo({
+    createRepo({
       save: async (team, h, insert) => {
         saves.push([
           team,
@@ -174,7 +183,6 @@ describe("PUT /artifacts/:hash", () => {
         ]);
       },
     });
-    const app = createApp({ repo });
 
     const response = await app.request(`/artifacts/${hash}`, {
       body: "artifact-body",
@@ -196,10 +204,8 @@ describe("PUT /artifacts/:hash", () => {
 
 describe("authentication", () => {
   it("accepts requests with the correct bearer token", async () => {
-    const app = createApp({
-      repo: createRepo(),
-      token: "secret",
-    });
+    vi.stubEnv("TURBO_TOKEN", "secret");
+    createRepo();
 
     const response = await app.request(`/artifacts/${hash}`, {
       headers: { authorization: "Bearer secret" },
@@ -210,10 +216,8 @@ describe("authentication", () => {
   });
 
   it("rejects requests without a bearer token", async () => {
-    const app = createApp({
-      repo: createRepo(),
-      token: "secret",
-    });
+    vi.stubEnv("TURBO_TOKEN", "secret");
+    createRepo();
 
     const response = await app.request(`/artifacts/${hash}`);
 
@@ -225,10 +229,8 @@ describe("authentication", () => {
   });
 
   it("rejects requests with a wrong bearer token", async () => {
-    const app = createApp({
-      repo: createRepo(),
-      token: "secret",
-    });
+    vi.stubEnv("TURBO_TOKEN", "secret");
+    createRepo();
 
     const response = await app.request(`/artifacts/${hash}`, {
       headers: { authorization: "Bearer wrong" },
@@ -242,10 +244,8 @@ describe("authentication", () => {
   });
 
   it("rejects malformed Authorization headers with 400", async () => {
-    const app = createApp({
-      repo: createRepo(),
-      token: "secret",
-    });
+    vi.stubEnv("TURBO_TOKEN", "secret");
+    createRepo();
 
     const response = await app.request(`/artifacts/${hash}`, {
       headers: { authorization: "Bearer bad token!" },

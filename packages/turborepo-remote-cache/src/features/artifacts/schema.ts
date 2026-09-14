@@ -1,11 +1,12 @@
+import { sValidator } from "@hono/standard-validator";
 import * as v from "valibot";
 
-const toNumber = Number;
+import { validationErrorHook } from "../../validation";
 
 /**
  * Header value coerced from its string form into a number.
  */
-const numericHeader = v.pipe(v.string(), v.transform(toNumber));
+const numericHeader = v.pipe(v.string(), v.transform(Number));
 
 /**
  * Non-negative number constraint.
@@ -18,7 +19,8 @@ const nonNegativeNumber = v.pipe(v.number(), v.minValue(0));
 const nonNegativeInteger = v.pipe(nonNegativeNumber, v.integer());
 
 /**
- * `x-artifact-client-interactive` header: `"0"` or `"1"`, coerced to a number.
+ * `x-artifact-client-interactive` header: `"0"` or `"1"`, coerced to a
+ * number.
  */
 const interactiveHeader = v.pipe(numericHeader, v.picklist([0, 1]));
 
@@ -45,7 +47,8 @@ const uuidString = v.pipe(v.string(), v.uuid());
 /**
  * Content-addressable artifact hash.
  *
- * Hex string that uniquely identifies a cached artifact based on task inputs.
+ * Hex string that uniquely identifies a cached artifact based on task
+ * inputs.
  */
 export const artifactHashSchema = v.pipe(
   v.string(),
@@ -102,9 +105,7 @@ export const uploadHeadersSchema = v.object({
 /**
  * Request body of `POST /artifacts` — the hashes to query metadata for.
  */
-export const artifactQueryRequestSchema = v.object({
-  hashes: nonEmptyStrings,
-});
+export const artifactQueryRequestSchema = v.object({ hashes: nonEmptyStrings });
 
 /**
  * A single cache usage analytics event (`POST /artifacts/events`).
@@ -122,22 +123,68 @@ export const cacheEventSchema = v.object({
  */
 export const cacheEventsSchema = v.array(cacheEventSchema);
 
-export type ArtifactHash = v.InferOutput<typeof artifactHashSchema>;
+/**
+ * Validates the `hash` path parameter of the artifact routes.
+ */
+export const validateArtifactHash = sValidator(
+  "param",
+  artifactHashParameterSchema,
+  validationErrorHook,
+);
 
-export type ArtifactHashParameter = v.InferOutput<
-  typeof artifactHashParameterSchema
->;
+/**
+ * Validates the optional `teamId` / `slug` query parameters.
+ */
+export const validateTeamQuery = sValidator(
+  "query",
+  teamQuerySchema,
+  validationErrorHook,
+);
 
-export type ArtifactQueryRequest = v.InferOutput<
-  typeof artifactQueryRequestSchema
->;
+/**
+ * Validates the optional client context headers
+ * (`x-artifact-client-ci`, `x-artifact-client-interactive`).
+ */
+export const validateClientHeaders = sValidator(
+  "header",
+  clientHeadersSchema,
+  validationErrorHook,
+);
 
-export type CacheEvent = v.InferOutput<typeof cacheEventSchema>;
+/**
+ * Validates the upload headers of `PUT /artifacts/{hash}`, including the
+ * required `content-length` and the optional artifact metadata headers.
+ */
+export const validateUploadHeaders = sValidator(
+  "header",
+  uploadHeadersSchema,
+  validationErrorHook,
+);
 
-export type CacheEvents = v.InferOutput<typeof cacheEventsSchema>;
+/**
+ * Validates the JSON body of `POST /artifacts` (artifact hash query).
+ */
+export const validateArtifactQuery = sValidator(
+  "json",
+  artifactQueryRequestSchema,
+  validationErrorHook,
+);
 
-export type ClientHeaders = v.InferOutput<typeof clientHeadersSchema>;
+/**
+ * Validates the JSON body of `POST /artifacts/events` (cache events).
+ */
+export const validateCacheEvents = sValidator(
+  "json",
+  cacheEventsSchema,
+  validationErrorHook,
+);
 
+/**
+ * Output type of {@link teamQuerySchema}.
+ */
 export type TeamQuery = v.InferOutput<typeof teamQuerySchema>;
 
+/**
+ * Validated upload headers of `PUT /artifacts/{hash}`.
+ */
 export type UploadHeaders = v.InferOutput<typeof uploadHeadersSchema>;

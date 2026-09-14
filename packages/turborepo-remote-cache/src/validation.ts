@@ -1,18 +1,18 @@
 import type { StandardSchemaV1 } from "@standard-schema/spec";
-import type { Context } from "hono";
+import type { Context, Env, ValidationTargets } from "hono";
 
-import { errorBody } from "./errors.js";
+import { errorBody } from "./errors";
 
-type ValidationFailure = {
-  readonly error: readonly StandardSchemaV1.Issue[];
-  readonly success: false;
-};
-
-type ValidationResult = ValidationFailure | ValidationSuccess;
-
-type ValidationSuccess = {
-  readonly success: true;
-};
+/**
+ * Result shape delivered to every `sValidator` hook.
+ */
+type ValidatorResult<T> =
+  | {
+      readonly data: T;
+      readonly error: readonly StandardSchemaV1.Issue[];
+      readonly success: false;
+    }
+  | { readonly data: T; readonly success: true };
 
 /**
  * Hook passed to every `sValidator` middleware.
@@ -21,15 +21,16 @@ type ValidationSuccess = {
  * `BadRequest` error shape defined by the Turborepo Remote Cache spec
  * (`{ code, message }`), listing every issue reported by the schema.
  */
-export function validationErrorHook(result: ValidationResult, c: Context) {
+export function validationErrorHook<T, E extends Env, P extends string>(
+  result: ValidatorResult<T> & { target: keyof ValidationTargets },
+  c: Context<E, P>,
+) {
   if (result.success) {
     return;
   }
-
   const message =
     result.error.map((issue) => formatIssue(issue)).join("; ") ||
     "Invalid request.";
-
   return c.json(errorBody("BAD_REQUEST", message), 400);
 }
 
@@ -39,12 +40,12 @@ export function validationErrorHook(result: ValidationResult, c: Context) {
  */
 function formatIssue(issue: StandardSchemaV1.Issue) {
   const path = (issue.path ?? [])
-    .map((segment) => (typeof segment === "object" ? segment.key : segment))
+    .map((segment) =>
+      String(typeof segment === "object" ? segment.key : segment),
+    )
     .join(".");
-
   if (path === "") {
     return issue.message;
   }
-
   return `${path}: ${issue.message}`;
 }

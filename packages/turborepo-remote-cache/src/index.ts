@@ -1,74 +1,32 @@
+import type { Context, Next } from "hono";
+
 import { Hono } from "hono";
 import { bearerAuth } from "hono/bearer-auth";
 import { HTTPException } from "hono/http-exception";
 
-import type { ArtifactRepo } from "./features/artifacts/repo.js";
-
-import { errorBody } from "./errors.js";
-import { createArtifactsApp } from "./features/artifacts/index.js";
-import { createArtifactService } from "./features/artifacts/service.js";
-
-/**
- * Options accepted by `createApp`.
- */
-export type AppOptions = {
-  readonly repo: ArtifactRepo;
-  readonly token?: string;
-};
-
-export type AppType = ReturnType<typeof createApp>;
-
-/**
- * Creates the Turborepo Remote Cache Hono app.
- *
- * Contains only the mounts: every endpoint lives in the `artifacts` sub-app
- * and authentication is applied root-level — there are no public endpoints
- * whenever a token is configured. When `token` is unset (development mode)
- * authentication is disabled and every request is accepted.
- */
-export function createApp({ repo, token }: AppOptions) {
-  const service = createArtifactService(repo);
-  const app = new Hono();
-
-  app.notFound((c) => {
-    return c.json(
-      errorBody("NOT_FOUND", "The requested resource was not found."),
-      404,
-    );
-  });
-
-  app.onError((error, c) => {
-    if (error instanceof HTTPException) {
-      return error.getResponse();
-    }
-
-    return c.json(
-      errorBody("INTERNAL_SERVER_ERROR", "An unexpected error occurred."),
-      500,
-    );
-  });
-
-  const routes = (
-    token === undefined ? app : (
-      app.use("*", createAuthMiddleware(token))
-    )).route("/artifacts", createArtifactsApp(service));
-
-  return routes;
-}
+import { errorBody } from "./errors";
+import { artifacts } from "./features/artifacts";
 
 /**
  * Bearer-token authentication middleware.
  *
- * Requests must carry `Authorization: Bearer <token>`; anything else is
- * short-circuited with the spec `Unauthorized` error shape (malformed
- * `Authorization` headers answer with the spec `BadRequest` shape).
+ * When a `TURBO_TOKEN` is configured, requests must carry `Authorization:
+ * Bearer <token>`; anything else is short-circuited with the spec
+ * `Unauthorized` error shape (malformed `Authorization` headers answer with
+ * the spec `BadRequest` shape). When no token is configured — development
+ * mode — every request passes through. The token is read at request time so
+ * tests can vary it through the environment.
  */
-function createAuthMiddleware(token: string) {
+const authMiddleware = async (c: Context, next: Next) => {
+  const token = process.env.TURBO_TOKEN;
+  if (!token) {
+    await next();
+    return;
+  }
   const unauthorized = errorBody(
     "UNAUTHORIZED",
     "A valid bearer token is required.",
   );
-
   return bearerAuth({
     invalidAuthenticationHeader: {
       message: errorBody(
@@ -79,5 +37,34 @@ function createAuthMiddleware(token: string) {
     invalidToken: { message: unauthorized },
     noAuthenticationHeader: { message: unauthorized },
     token,
-  });
-}
+  })(c, next);
+};
+
+/**
+ * The Turborepo Remote Cache Hono app.
+ *
+ * Contains only the mounts: every endpoint lives in the `artifacts` sub-app
+ * and authentication is applied root-level — there are no public endpoints
+ * whenever a token is configured. When `TURBO_TOKEN` is unset (development
+ * mode) authentication is disabled and every request is accepted.
+ */
+
+const app = new Hono();
+export default app
+  .use("*", authMiddleware)
+  .notFound((c) => {
+    return c.json(
+      errorBody("NOT_FOUND", "The requested resource was not found."),
+      404,
+    );
+  })
+  .onError((error, c) => {
+    if (error instanceof HTTPException) {
+      return error.getResponse();
+    }
+    return c.json(
+      errorBody("INTERNAL_SERVER_ERROR", "An unexpected error occurred."),
+      500,
+    );
+  })
+  .route("/artifacts", artifacts);
