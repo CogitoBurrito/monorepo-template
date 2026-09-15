@@ -40,4 +40,4 @@ export const artifactService = {
   ) => {
     return artifactRepo.save(team, hash, input);
   },
-};
+} as const;

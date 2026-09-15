@@ -13,13 +13,8 @@ function artifactKey(team: string, hash: string) {
 
 /**
  * The `TURBOREPO_REMOTE_CACHE` R2 bucket binding from the worker environment.
- *
- * Resolved lazily: the `env` proxy only yields its bindings inside the worker
- * request context.
  */
-function bucket() {
-  return env.TURBOREPO_REMOTE_CACHE;
-}
+const bucket = env.TURBOREPO_REMOTE_CACHE;
 
 /**
  * Reads the artifact metadata out of an R2 object's custom metadata.
@@ -45,7 +40,7 @@ function readMetadata(source: Record<string, string>) {
  * and size, without downloading the body.
  */
 async function readSummary(team: string, hash: string) {
-  const object = await bucket().head(artifactKey(team, hash));
+  const object = await bucket.head(artifactKey(team, hash));
   if (object === null) {
     return;
   }
@@ -53,6 +48,7 @@ async function readSummary(team: string, hash: string) {
 }
 
 /**
+
  * Writes the artifact metadata into the string-only custom metadata of an
  * R2 object.
  */
@@ -77,12 +73,17 @@ function writeMetadata(metadata: ArtifactMetadata) {
  * `{team}/{hash}` (unscoped artifacts use the bare hash): the body is the
  * object value and the upload-time headers are stored as the object's
  * custom metadata. `Content-Length` needs no storage at all — it is
- * reported from `object.size` on read. The binding is resolved lazily, so
- * the repo can be created outside of a request context.
+ * reported from `object.size` on read.
  */
 export const artifactRepo = {
   find: async (team: string, hash: string) => {
-    const object = await bucket().get(artifactKey(team, hash));
+    // Existence is checked with the cheap `head` first, so a miss never
+    // opens the `get` body stream at all.
+    const summary = await readSummary(team, hash);
+    if (summary === undefined) {
+      return;
+    }
+    const object = await bucket.get(artifactKey(team, hash));
     if (object === null) {
       return;
     }
@@ -104,8 +105,8 @@ export const artifactRepo = {
     return readSummary(team, hash);
   },
   save: async (team: string, hash: string, input: ArtifactSaveInput) => {
-    await bucket().put(artifactKey(team, hash), input.body, {
+    await bucket.put(artifactKey(team, hash), input.body, {
       customMetadata: writeMetadata(input.metadata),
     });
   },
-};
+} as const;

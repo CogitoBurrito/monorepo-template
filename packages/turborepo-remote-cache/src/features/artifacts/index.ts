@@ -50,19 +50,24 @@ function extractMetadata(headers: UploadHeaders) {
 
 /**
  * Response headers echoing stored artifact metadata, as required by the
- * spec for `HEAD` and `GET /artifacts/{hash}`.
+ * spec for `HEAD` and `GET /artifacts/{hash}`. Only headers with a
+ * defined value are included.
  */
 function metadataHeaders(summary: ArtifactSummary) {
-  return {
-    ...(summary.dirtyHash !== undefined && {
-      "x-artifact-dirty-hash": summary.dirtyHash,
-    }),
-    ...(summary.duration !== undefined && {
-      "x-artifact-duration": String(summary.duration),
-    }),
-    ...(summary.sha !== undefined && { "x-artifact-sha": summary.sha }),
-    ...(summary.tag !== undefined && { "x-artifact-tag": summary.tag }),
-  };
+  const headers = new Map<string, string>();
+  if (summary.dirtyHash !== undefined) {
+    headers.set("x-artifact-dirty-hash", summary.dirtyHash);
+  }
+  if (summary.duration !== undefined) {
+    headers.set("x-artifact-duration", String(summary.duration));
+  }
+  if (summary.sha !== undefined) {
+    headers.set("x-artifact-sha", summary.sha);
+  }
+  if (summary.tag !== undefined) {
+    headers.set("x-artifact-tag", summary.tag);
+  }
+  return headers;
 }
 
 /**
@@ -72,13 +77,6 @@ function metadataHeaders(summary: ArtifactSummary) {
 function resolveTeam(query: TeamQuery) {
   return query.teamId ?? query.slug ?? "";
 }
-
-/**
- * JSON `null` for `POST /artifacts` — the spec's `ArtifactQueryResponse`
- * maps missing artifacts to `null`, and the project convention replaces the
- * forbidden `null` literal with `JSON.parse("null")`.
- */
-const jsonNull = JSON.parse("null") as null;
 
 /**
  * The artifacts sub-app — route definitions, validation
@@ -109,9 +107,11 @@ export const artifacts = app
         if (summary === undefined) {
           return artifactNotFound(c, hash);
         }
+        // `HEAD` responses carry headers only — the body stays empty
+        // while `content-length` still reports the artifact size.
         return c.body("", 200, {
           "content-length": String(summary.size),
-          ...metadataHeaders(summary),
+          ...Object.fromEntries(metadataHeaders(summary)),
         });
       }
 
@@ -121,7 +121,7 @@ export const artifacts = app
       }
       return c.body(artifact.body, 200, {
         "content-length": String(artifact.size),
-        ...metadataHeaders(artifact),
+        ...Object.fromEntries(metadataHeaders(artifact)),
       });
     },
   )
@@ -131,7 +131,9 @@ export const artifacts = app
     const result = await artifactService.query(team, hashes);
     return c.json(
       Object.fromEntries(
-        Object.entries(result).map(([hash, info]) => [hash, info ?? jsonNull]),
+        // We need to return `null` for missing artifacts per the spec
+        // eslint-disable-next-line unicorn/no-null
+        Object.entries(result).map(([hash, info]) => [hash, info ?? null]),
       ),
     );
   })
