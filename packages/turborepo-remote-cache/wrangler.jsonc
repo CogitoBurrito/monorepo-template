@@ -1,6 +1,28 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "turborepo-remote-cache",
+  "main": "./src/index.ts",
   "compatibility_date": "2026-09-07",
+  "cache": {
+    "enabled": true,
+  },
+  "secrets_store_secrets": [
+    {
+      "binding": "TURBO_CACHE_TOKEN",
+      "store_id": "fa86555a2cb342eea987aaa4ebaa7b9e",
+      "secret_name": "TurboCacheToken",
+    },
+  ],
+  "observability": {
+    "traces": {
+      "enabled": true,
+      "persist": true,
+    },
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
+    },
+  },
   "r2_buckets": [
     {
       "binding": "TURBOREPO_REMOTE_CACHE",

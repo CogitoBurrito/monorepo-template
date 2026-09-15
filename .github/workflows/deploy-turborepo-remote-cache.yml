@@ -1,0 +1,61 @@
+name: Deploy turborepo-remote-cache
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "packages/turborepo-remote-cache/**"
+      - ".github/workflows/deploy-turborepo-remote-cache.yml"
+
+concurrency:
+  group: deploy-turborepo-remote-cache
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build & deploy Worker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        # Version is read from package.json `devEngines.packageManager`.
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint, type-check & test
+        run: pnpm exec turbo run lint check-types test --filter=@jonsun/turborepo-remote-cache
+
+      - name: Build
+        run: pnpm exec turbo run build --filter=@jonsun/turborepo-remote-cache
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: packages/turborepo-remote-cache
+          command: deploy
+
+      - name: Sync TURBO_TOKEN secret
+        if: ${{ env.TURBO_TOKEN != '' }}
+        working-directory: packages/turborepo-remote-cache
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+        run: |
+          printf '%s' "$TURBO_TOKEN" | pnpm wrangler secret put TURBO_TOKEN
+        shell: bash
+
+      - name: Deployment summary
+        run: |
+          echo "Deployed @jonsun/turborepo-remote-cache from commit ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"

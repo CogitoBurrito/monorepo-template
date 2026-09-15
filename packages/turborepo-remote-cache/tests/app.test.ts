@@ -1,14 +1,21 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import type { ArtifactRecord } from "../src/features/artifacts/types";
 
 import { artifactRepo } from "../src/features/artifacts/repo";
+import { setTurborepoToken } from "./cloudflare-workers";
 import app from "../src/index";
 
 const hash = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
 const missingHash =
   "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 const body = new TextEncoder().encode("artifact-body");
+
+// Clears the stubbed `TURBO_CACHE_TOKEN` secret after every test so the
+// artifact tests below keep running in tokenless (auth disabled) mode.
+afterEach(() => {
+  setTurborepoToken(undefined);
+});
 
 const stored: ArtifactRecord = {
   body,
@@ -66,11 +73,11 @@ function createRepo(
   return repo;
 }
 
-describe("HEAD /artifacts/:hash", () => {
+describe("HEAD /v8/artifacts/:hash", () => {
   it("short-circuits via the head shortcut, returning headers only", async () => {
     const repo = createRepo();
 
-    const response = await app.request(`/artifacts/${hash}`, {
+    const response = await app.request(`/v8/artifacts/${hash}`, {
       method: "HEAD",
     });
 
@@ -89,7 +96,7 @@ describe("HEAD /artifacts/:hash", () => {
   it("returns 404 with the spec error body for missing artifacts", async () => {
     createRepo();
 
-    const response = await app.request(`/artifacts/${missingHash}`, {
+    const response = await app.request(`/v8/artifacts/${missingHash}`, {
       method: "HEAD",
     });
 
@@ -101,7 +108,7 @@ describe("HEAD /artifacts/:hash", () => {
   it("scopes the head lookup by team query parameters", async () => {
     const repo = createRepo();
 
-    const response = await app.request(`/artifacts/${hash}?teamId=team_1`, {
+    const response = await app.request(`/v8/artifacts/${hash}?teamId=team_1`, {
       method: "HEAD",
     });
 
@@ -112,7 +119,7 @@ describe("HEAD /artifacts/:hash", () => {
   it("runs the route validators before the shortcut", async () => {
     const repo = createRepo();
 
-    const response = await app.request("/artifacts/not-a-hash", {
+    const response = await app.request("/v8/artifacts/not-a-hash", {
       method: "HEAD",
     });
 
@@ -123,11 +130,11 @@ describe("HEAD /artifacts/:hash", () => {
   });
 });
 
-describe("GET /artifacts/:hash", () => {
+describe("GET /v8/artifacts/:hash", () => {
   it("returns the artifact body with metadata headers", async () => {
     const repo = createRepo();
 
-    const response = await app.request(`/artifacts/${hash}`);
+    const response = await app.request(`/v8/artifacts/${hash}`);
 
     expect(response.status).toBe(200);
     expect(new Uint8Array(await response.arrayBuffer())).toStrictEqual(body);
@@ -142,7 +149,7 @@ describe("GET /artifacts/:hash", () => {
   it("returns 404 for missing artifacts", async () => {
     createRepo();
 
-    const response = await app.request(`/artifacts/${missingHash}`);
+    const response = await app.request(`/v8/artifacts/${missingHash}`);
 
     expect(response.status).toBe(404);
     expect(await response.json()).toStrictEqual({
@@ -152,11 +159,11 @@ describe("GET /artifacts/:hash", () => {
   });
 });
 
-describe("POST /artifacts", () => {
+describe("POST /v8/artifacts", () => {
   it("maps found artifacts to info and missing hashes to null", async () => {
     createRepo();
 
-    const response = await app.request("/artifacts", {
+    const response = await app.request("/v8/artifacts", {
       body: JSON.stringify({ hashes: [hash, "missing"] }),
       headers: { "Content-Type": "application/json" },
       method: "POST",
@@ -170,7 +177,7 @@ describe("POST /artifacts", () => {
   });
 });
 
-describe("PUT /artifacts/:hash", () => {
+describe("PUT /v8/artifacts/:hash", () => {
   it("stores the artifact and echoes the download URL", async () => {
     const saves: (readonly [string, string, number, string])[] = [];
     createRepo({
@@ -184,7 +191,7 @@ describe("PUT /artifacts/:hash", () => {
       },
     });
 
-    const response = await app.request(`/artifacts/${hash}`, {
+    const response = await app.request(`/v8/artifacts/${hash}`, {
       body: "artifact-body",
       headers: {
         "content-length": "13",
@@ -196,7 +203,7 @@ describe("PUT /artifacts/:hash", () => {
 
     expect(response.status).toBe(200);
     expect(await response.json()).toStrictEqual({
-      urls: [`http://localhost/artifacts/${hash}`],
+      urls: [`http://localhost/v8/artifacts/${hash}`],
     });
     expect(saves).toStrictEqual([["", hash, 13, "v2"]]);
   });
@@ -204,10 +211,10 @@ describe("PUT /artifacts/:hash", () => {
 
 describe("authentication", () => {
   it("accepts requests with the correct bearer token", async () => {
-    vi.stubEnv("TURBO_TOKEN", "secret");
+    setTurborepoToken("secret");
     createRepo();
 
-    const response = await app.request(`/artifacts/${hash}`, {
+    const response = await app.request(`/v8/artifacts/${hash}`, {
       headers: { authorization: "Bearer secret" },
       method: "HEAD",
     });
@@ -216,10 +223,10 @@ describe("authentication", () => {
   });
 
   it("rejects requests without a bearer token", async () => {
-    vi.stubEnv("TURBO_TOKEN", "secret");
+    setTurborepoToken("secret");
     createRepo();
 
-    const response = await app.request(`/artifacts/${hash}`);
+    const response = await app.request(`/v8/artifacts/${hash}`);
 
     expect(response.status).toBe(401);
     expect(await response.json()).toStrictEqual({
@@ -229,10 +236,10 @@ describe("authentication", () => {
   });
 
   it("rejects requests with a wrong bearer token", async () => {
-    vi.stubEnv("TURBO_TOKEN", "secret");
+    setTurborepoToken("secret");
     createRepo();
 
-    const response = await app.request(`/artifacts/${hash}`, {
+    const response = await app.request(`/v8/artifacts/${hash}`, {
       headers: { authorization: "Bearer wrong" },
     });
 
@@ -244,10 +251,10 @@ describe("authentication", () => {
   });
 
   it("rejects malformed Authorization headers with 400", async () => {
-    vi.stubEnv("TURBO_TOKEN", "secret");
+    setTurborepoToken("secret");
     createRepo();
 
-    const response = await app.request(`/artifacts/${hash}`, {
+    const response = await app.request(`/v8/artifacts/${hash}`, {
       headers: { authorization: "Bearer bad token!" },
     });
 

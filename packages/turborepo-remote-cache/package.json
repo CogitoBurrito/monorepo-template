@@ -22,11 +22,12 @@
     "valibot": "^1.5.0"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "catalog:",
+    "@cloudflare/vitest-plugin": "catalog:",
     "@jonsun/eslint-config": "workspace:*",
     "@jonsun/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "eslint": "catalog:",
-    "nitro": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",

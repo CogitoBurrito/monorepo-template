@@ -33,4 +33,4 @@ if ! command -v turbo >/dev/null 2>&1; then
   pnpm install --frozen-lockfile
 fi
 
-exec turbo run lint format check-types
+exec turbo run lint format check-types test

@@ -1,4 +1,8 @@
 {
+  "remoteCache": {
+    "teamId": "jonsun",
+    "apiUrl": "https://turborepo-remote-cache.jon-sun30.workers.dev"
+  },
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "globalPassThroughEnv": [

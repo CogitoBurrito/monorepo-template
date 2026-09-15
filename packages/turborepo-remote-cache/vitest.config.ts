@@ -1,16 +1,12 @@
-import { fileURLToPath } from "node:url";
+import { cloudflareTest } from "@cloudflare/vitest-plugin";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      // The `cloudflare:workers` virtual module only exists inside a worker;
-      // tests run in node and import the stub instead.
-      "cloudflare:workers": fileURLToPath(
-        new URL("tests/cloudflare-workers.ts", import.meta.url),
-      ),
-    },
-  },
+  plugins: [
+    cloudflareTest({
+      wrangler: { configPath: "./wrangler.jsonc" },
+    }),
+  ],
   test: {
     environment: "node",
     include: ["tests/**/*.test.ts"],
