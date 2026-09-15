@@ -1,0 +1,17 @@
+{
+	"servers": {
+		"valibot-doc-mcp": {
+			"url": "https://valibot.dev/mcp",
+			"type": "http"
+		},
+		"cloudflare-doc-mcp": {
+			"url": "https://docs.mcp.cloudflare.com/mcp",
+			"type": "http"
+		},
+		"github-mcp": {
+			"type": "http",
+			"url": "https://api.githubcopilot.com/mcp"
+		}
+	},
+	"inputs": []
+}
