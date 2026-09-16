@@ -6,45 +6,31 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "globalPassThroughEnv": [
-    "GITHUB_TOKEN"
+    "GITHUB_TOKEN",
+    "TURBO_TOKEN",
+    "CLOUDFLARE_API_TOKEN",
+    "CLOUDFLARE_ACCOUNT_ID",
+    "TURBO_TEAM"
   ],
   "tasks": {
     "build": {
       "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env*"
+        "^build",
+        "lint",
+        "check-types",
+        "test",
+        "format"
       ],
       "outputs": [
         ".next/**",
+        "dist/**",
         "!.next/cache/**",
         "!.next/dev/**"
       ]
     },
-    "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
-    },
-    "check-types": {
-      "dependsOn": [
-        "^check-types"
-      ]
-    },
-    "format": {
-      "dependsOn": [
-        "^format"
-      ]
-    },
+    "lint": {},
+    "check-types": {},
+    "format": {},
     "test": {},
-    "sync": {
-      "cache": false
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    }
   }
 }
