@@ -15,23 +15,19 @@ concurrency:
 jobs:
   deploy:
     name: Build & deploy Worker
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        # Version is read from package.json `devEngines.packageManager`.
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - name: Setup pnpm
+        uses: pnpm/setup@v2
         with:
-          node-version: 26
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+          require-lockfile: true
+          cache: true
 
       - name: Lint, type-check & test
         run: pnpm exec turbo run lint check-types test --filter=@jonsun/turborepo-remote-cache
@@ -40,22 +36,9 @@ jobs:
         run: pnpm exec turbo run build --filter=@jonsun/turborepo-remote-cache
 
       - name: Deploy to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: packages/turborepo-remote-cache
           command: deploy
-
-      - name: Sync TURBO_TOKEN secret
-        if: ${{ env.TURBO_TOKEN != '' }}
-        working-directory: packages/turborepo-remote-cache
-        env:
-          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-        run: |
-          printf '%s' "$TURBO_TOKEN" | pnpm wrangler secret put TURBO_TOKEN
-        shell: bash
-
-      - name: Deployment summary
-        run: |
-          echo "Deployed @jonsun/turborepo-remote-cache from commit ${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
