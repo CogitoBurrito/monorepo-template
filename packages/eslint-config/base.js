@@ -55,6 +55,8 @@ export default defineConfig(
       // conflicts with how the source files are written.
       "import-x/extensions": "off",
       "import-x/order": "off",
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-use-before-define": "error",
       "unicorn/consistent-class-member-order": "off",
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "no-restricted-syntax": [

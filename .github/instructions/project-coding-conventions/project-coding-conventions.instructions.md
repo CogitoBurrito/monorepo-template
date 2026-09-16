@@ -29,6 +29,12 @@ applyTo: "**/*.ts, **/*.tsx"
 | [functions-no-explicit-return-type](./rules/functions-no-explicit-return-type.md) | Omit explicit return types when TypeScript can infer them |
 | [functions-prefer-function-keyword](./rules/functions-prefer-function-keyword.md) | Prefer the `function` keyword for top-level functions     |
 
+### Ordering
+
+| Rule                                                    | Guidance                                                      |
+| ------------------------------------------------------- | ------------------------------------------------------------- |
+| [no-use-before-define](./rules/no-use-before-define.md) | Declare bindings before they are used; no relying on hoisting |
+
 ### Sorting
 
 | Rule                                                      | Guidance                                                                    |
