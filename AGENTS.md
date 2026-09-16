@@ -23,7 +23,7 @@ TypeScript is used across the project for all apps and packages, except for the 
 
 ### Testing
 
-- Vitest for TypeScript
+- Vitest for Unitest
 - Playwright for e2e tests
 
 ### Tooling
@@ -35,17 +35,17 @@ TypeScript is used across the project for all apps and packages, except for the 
 
 ### Shell
 
-Check the current shell is fish or bash before writing any shell scripts
+Check the current shell is fish or bash before executing any shell scripts
 
 ## Project Structure
 
-- `apps/*` — runnable applications. Each app owns its UI, entry points, and app-local config (`eslint.config.js`, `tsconfig.json`).
-- `packages/*` — shared packages consumed by apps:
-  - `packages/eslint-config` — shared ESLint flat configs (`base.js` for TypeScript, `react.js` for React/hooks)
-  - `packages/sync-skill` — manual Node ESM CLI that synchronizes eligible TanStack Router package skills into `.agents/skills`
+- `apps/*` — runnable applications. Each app owns its UI, entry points, and app-local config (`eslint.config.js`, `tsconfig.json`):
+  - `apps/grazy` — TanStack Start app (`@jonsun/grazy`) consuming the shared site, router, and search-state packages
+- `packages/*` — shared packages consumed by apps (all under the `@jonsun` scope):
+  - `packages/eslint-config` — shared ESLint flat configs (`base.js` for TypeScript, `react.js` for React/hooks, `tanstack.js` for TanStack rules)
   - `packages/typescript-config` — shared tsconfig presets (`base.json`)
-- Root — orchestration only: `turbo.json` task pipeline, `lefthook.yml` git hooks + AI agent hook (`ai.copilot` → `lefthook run validate`), `scripts/preflight.sh` preflight entry, pnpm catalog, `AGENTS.md`
-
-## Development Guidelines
-
-You are not allowed to edit any eslint or prettier config files to bypass the lint errors. If you encounter a lint error, you must fix the underlying issue rather than suppressing it.
+  - `packages/grazy-query` — shared TanStack Query hooks and loaders (`@jonsun/grazy-query`)
+  - `packages/grazy-router` — shared TanStack Router setup, route tree, and routes (`@jonsun/grazy-router`)
+  - `packages/grazy-site` — shared site UI components and pages (`@jonsun/grazy-site`)
+  - `packages/search-state` — React hook for search/URL state, with Vitest tests (`@jonsun/search-state`)
+  - `packages/turborepo-remote-cache` — self-hosted Turborepo Remote Cache server built with Hono, deployed to Cloudflare Workers via Wrangler
