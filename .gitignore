@@ -33,6 +33,7 @@ dist-ssr
 #turborepo
 
 .turbo
+.eslintcache
 .DS_Store
 *.local
 *.tsbuildinfo

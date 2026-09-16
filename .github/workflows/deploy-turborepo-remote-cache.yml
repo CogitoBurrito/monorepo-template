@@ -31,7 +31,7 @@ jobs:
           cache: true
 
       - name: Lint, type-check & test
-        run: pnpm exec turbo run lint check-types test --filter=@jonsun/turborepo-remote-cache
+        run: pnpm exec turbo run lint check:type test --filter=@jonsun/turborepo-remote-cache
 
       - name: Build
         run: pnpm exec turbo run build --filter=@jonsun/turborepo-remote-cache

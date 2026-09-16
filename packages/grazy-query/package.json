@@ -17,9 +17,10 @@
     "node": ">=26.x.x"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . --cache",
     "format": "prettier --write .",
-    "check-types": "tsc --noEmit"
+    "check:format": "prettier --check .",
+    "check:type": "tsc --noEmit"
   },
   "dependencies": {
     "@tanstack/react-query": "catalog:",

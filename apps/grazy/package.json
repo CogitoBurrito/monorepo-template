@@ -13,9 +13,10 @@
     "generate-routes": "tsr generate",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint .",
+    "lint": "eslint . --cache",
     "format": "prettier --write .",
-    "check-types": "tsc --noEmit"
+    "check:format": "prettier --check .",
+    "check:type": "tsc --noEmit"
   },
   "dependencies": {
     "@jonsun/grazy-router": "workspace:*",

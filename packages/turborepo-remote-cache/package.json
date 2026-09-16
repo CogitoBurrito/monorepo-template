@@ -8,9 +8,10 @@
     "dev": "vite dev",
     "build": "vite build",
     "start": "node .output/server/index.mjs",
-    "lint": "eslint .",
+    "lint": "eslint . --cache",
     "format": "prettier --write .",
-    "check-types": "tsc --noEmit",
+    "check:format": "prettier --check .",
+    "check:type": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "wrangler": "wrangler"

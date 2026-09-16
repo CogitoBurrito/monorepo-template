@@ -14,10 +14,11 @@
   ],
   "tasks": {
     "build": {
+      "outputLogs": "errors-only",
       "dependsOn": [
         "^build",
         "lint",
-        "check-types",
+        "check:type",
         "test",
         "format"
       ],
@@ -28,9 +29,20 @@
         "!.next/dev/**"
       ]
     },
-    "lint": {},
-    "check-types": {},
-    "format": {},
-    "test": {},
+    "lint": {
+      "outputLogs": "errors-only",
+    },
+    "check:type": {
+      "outputLogs": "errors-only",
+    },
+    "format": {
+      "outputLogs": "errors-only",
+    },
+    "check:format": {
+      "outputLogs": "errors-only",
+    },
+    "test": {
+      "outputLogs": "errors-only",
+    },
   }
 }
