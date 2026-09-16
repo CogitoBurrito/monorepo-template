@@ -18,7 +18,8 @@ applyTo: "**/*.ts, **/*.tsx"
 | --------------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | [control-flow-no-nested-if](./rules/control-flow-no-nested-if.md)           | Avoid nested `if` statements; use guard clauses and early returns   |
 | [control-flow-no-nested-ternary](./rules/control-flow-no-nested-ternary.md) | Avoid nested ternary expressions; use early returns or a lookup map |
-| [control-flow-no-else](./rules/control-flow-no-else.md)                     | Avoid `else` statements; return early instead                       || [control-flow-prefer-early-return](./rules/control-flow-prefer-early-return.md) | Use guard clauses with early returns; keep the happy path linear    || [control-flow-braces-required](./rules/control-flow-braces-required.md)     | Always use braces and a multi-line body for `if` statements         |
+| [control-flow-no-else](./rules/control-flow-no-else.md)                     | Avoid `else` statements; return early instead                       |
+| [control-flow-braces-required](./rules/control-flow-braces-required.md)     | Always use braces and a multi-line body for `if` statements         |
 
 ### Functions
 
@@ -33,6 +34,7 @@ applyTo: "**/*.ts, **/*.tsx"
 | Rule                                                    | Guidance                                                      |
 | ------------------------------------------------------- | ------------------------------------------------------------- |
 | [no-use-before-define](./rules/no-use-before-define.md) | Declare bindings before they are used; no relying on hoisting |
+| [control-flow-prefer-early-return](./rules/control-flow-prefer-early-return.md) | Use guard clauses with early returns; keep the happy path linear    |
 
 ### Sorting
 
