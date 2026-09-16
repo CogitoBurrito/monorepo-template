@@ -30,11 +30,8 @@ jobs:
           require-lockfile: true
           cache: true
 
-      - name: Lint, type-check & test
-        run: pnpm exec turbo run lint check:type test --filter=@jonsun/turborepo-remote-cache
-
-      - name: Build
-        run: pnpm exec turbo run build --filter=@jonsun/turborepo-remote-cache
+      - name: Preflight & Build
+        run: pnpm exec turbo run lint check:format check:type test build --filter=@jonsun/turborepo-remote-cache
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v4

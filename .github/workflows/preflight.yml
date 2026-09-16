@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   preflight:
-    name: Preflight (lint, format, check:type)
+    name: Preflight
     runs-on: ubuntu-slim
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
@@ -27,4 +27,4 @@ jobs:
           cache: true
 
       - name: Run preflight
-        run: pnpm run preflight
+        run: pnpm exec turbo run lint check:format check:type test

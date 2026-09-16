@@ -15,13 +15,6 @@
   "tasks": {
     "build": {
       "outputLogs": "errors-only",
-      "dependsOn": [
-        "^build",
-        "lint",
-        "check:type",
-        "test",
-        "format"
-      ],
       "outputs": [
         ".next/**",
         "dist/**",
