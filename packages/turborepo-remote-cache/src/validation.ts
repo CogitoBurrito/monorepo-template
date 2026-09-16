@@ -15,6 +15,22 @@ type ValidatorResult<T> =
   | { readonly data: T; readonly success: true };
 
 /**
+ * Formats a single validation issue as `path: message`, joining every path
+ * segment (including array indices) with dots.
+ */
+function formatIssue(issue: StandardSchemaV1.Issue) {
+  const path = (issue.path ?? [])
+    .map((segment) =>
+      String(typeof segment === "object" ? segment.key : segment),
+    )
+    .join(".");
+  if (path === "") {
+    return issue.message;
+  }
+  return `${path}: ${issue.message}`;
+}
+
+/**
  * Hook passed to every `sValidator` middleware.
  *
  * On validation failure it short-circuits the request with the
@@ -32,20 +48,4 @@ export function validationErrorHook<T, E extends Env, P extends string>(
     result.error.map((issue) => formatIssue(issue)).join("; ") ||
     "Invalid request.";
   return c.json(errorBody("BAD_REQUEST", message), 400);
-}
-
-/**
- * Formats a single validation issue as `path: message`, joining every path
- * segment (including array indices) with dots.
- */
-function formatIssue(issue: StandardSchemaV1.Issue) {
-  const path = (issue.path ?? [])
-    .map((segment) =>
-      String(typeof segment === "object" ? segment.key : segment),
-    )
-    .join(".");
-  if (path === "") {
-    return issue.message;
-  }
-  return `${path}: ${issue.message}`;
 }

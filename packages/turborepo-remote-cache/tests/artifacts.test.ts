@@ -21,20 +21,6 @@ const BODY = new Uint8Array([104, 101, 108, 108, 111]);
 type ApiInit = Omit<RequestInit, "headers"> & { headers?: HeadersInit };
 
 /**
- * Sends an authenticated request with the configured test token.
- */
-function api(path: string, init: ApiInit = {}) {
-  return request(path, init, TOKEN);
-}
-
-/**
- * Sends a request without any authorization header.
- */
-function apiUnauthenticated(path: string, init: ApiInit = {}) {
-  return request(path, init);
-}
-
-/**
  * Sends a request to the worker, optionally with a bearer token — omit the
  * `token` argument to exercise the unauthenticated paths.
  */
@@ -46,6 +32,20 @@ function request(path: string, init: ApiInit, token?: string) {
   return exports.default.fetch(
     new Request(`${BASE_URL}${path}`, { ...init, headers }),
   );
+}
+
+/**
+ * Sends an authenticated request with the configured test token.
+ */
+function api(path: string, init: ApiInit = {}) {
+  return request(path, init, TOKEN);
+}
+
+/**
+ * Sends a request without any authorization header.
+ */
+function apiUnauthenticated(path: string, init: ApiInit = {}) {
+  return request(path, init);
 }
 
 /**

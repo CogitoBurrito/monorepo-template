@@ -13,7 +13,7 @@
     "generate-routes": "tsr generate",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --cache",
+    "lint": "eslint .",
     "format": "prettier --write .",
     "check:format": "prettier --check .",
     "check:type": "tsc --noEmit"

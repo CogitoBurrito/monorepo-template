@@ -18,6 +18,10 @@ import { describe, expect, it, vi } from "vitest";
 
 type MicrotaskTestRouter = ReturnType<typeof createMicrotaskRouter>;
 
+function Root(): ReactElement {
+  return <Outlet />;
+}
+
 const fooSearchSchema = v.object({
   bar: v.optional(v.number(), 0),
   baz: v.optional(v.number(), 0),
@@ -122,10 +126,6 @@ async function renderSelectedMicrotaskState() {
       return selected;
     },
   };
-}
-
-function Root(): ReactElement {
-  return <Outlet />;
 }
 
 describe("useSearchStateExperimentalMicrotask", () => {

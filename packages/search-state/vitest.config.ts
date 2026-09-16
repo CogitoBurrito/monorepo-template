@@ -5,7 +5,8 @@ export default defineConfig({
     environment: "happy-dom",
     environmentOptions: { happyDom: { url: "http://localhost/" } },
     include: ["tests/**/*.test.ts", "tests/**/*.test.tsx"],
-    restoreMocks: true,
+    reporters:
+      process.env.GITHUB_ACTIONS ? ["default", "github-actions"] : ["default"],
     setupFiles: ["./tests/setup.ts"],
   },
 });

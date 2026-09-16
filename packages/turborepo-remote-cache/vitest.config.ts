@@ -8,9 +8,7 @@ export default defineConfig({
     }),
   ],
   test: {
-    environment: "node",
-    include: ["tests/**/*.test.ts"],
-    restoreMocks: true,
-    unstubEnvs: true,
+    reporters:
+      process.env.GITHUB_ACTIONS ? ["default", "github-actions"] : ["default"],
   },
 });

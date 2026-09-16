@@ -105,79 +105,6 @@ type ValueFrom<
       }[keyof Router["routesById"]]
   : Router["routesById"][From &
       keyof Router["routesById"]]["types"]["searchSchema"][Key];
-export function useSearchStateExperimentalMicrotask<
-  Router extends AnyRouter = RegisteredRouter,
-  Key extends string = string,
-  Selected = LooseValue<Router, Key>,
->(
-  options: UseSearchStateExperimentalMicrotaskOptions<
-    Router,
-    string,
-    false,
-    Key,
-    Selected
-  >,
-): readonly [
-  state: Selected,
-  setState: SetSearchStateExperimentalMicrotask<LooseValue<Router, Key>>,
-];
-export function useSearchStateExperimentalMicrotask<
-  Router extends AnyRouter = RegisteredRouter,
-  From extends string = string,
-  Key extends string = string,
-  Selected = StrictValue<Router, From, Key>,
->(
-  options: UseSearchStateExperimentalMicrotaskOptions<
-    Router,
-    From,
-    true,
-    Key,
-    Selected
-  >,
-): readonly [
-  state: Selected,
-  setState: SetSearchStateExperimentalMicrotask<StrictValue<Router, From, Key>>,
-];
-export function useSearchStateExperimentalMicrotask({
-  from,
-  key,
-  select,
-  strict,
-}: {
-  from?: string;
-  key: string;
-  select?: (value: never) => unknown;
-  strict?: boolean;
-}): readonly [state: unknown, setState: unknown] {
-  const searchOptions = useMemo(
-    () => ({
-      from,
-      select(search: Record<string, unknown>) {
-        const value = search[key];
-        return select ? select(value as never) : value;
-      },
-      strict,
-    }),
-    [from, key, select, strict],
-  );
-  const state = useSearch<AnyRouter, string, boolean>(
-    searchOptions as never,
-  ) as unknown;
-
-  const router = useRouter();
-  const setState = useMemo(
-    () =>
-      (
-        value: ((previous: unknown) => unknown) | unknown,
-        options?: SetSearchStateExperimentalMicrotaskOptions,
-      ) => {
-        setSearchValue(router, key, value, options);
-      },
-    [router, key],
-  );
-
-  return [state, setState];
-}
 
 const routerStores = new WeakMap<AnyRouter, RouterStore>();
 
@@ -292,4 +219,79 @@ function setSearchValue<Value>(
     store.options = undefined;
     store.scheduled = false;
   });
+}
+
+export function useSearchStateExperimentalMicrotask<
+  Router extends AnyRouter = RegisteredRouter,
+  Key extends string = string,
+  Selected = LooseValue<Router, Key>,
+>(
+  options: UseSearchStateExperimentalMicrotaskOptions<
+    Router,
+    string,
+    false,
+    Key,
+    Selected
+  >,
+): readonly [
+  state: Selected,
+  setState: SetSearchStateExperimentalMicrotask<LooseValue<Router, Key>>,
+];
+export function useSearchStateExperimentalMicrotask<
+  Router extends AnyRouter = RegisteredRouter,
+  From extends string = string,
+  Key extends string = string,
+  Selected = StrictValue<Router, From, Key>,
+>(
+  options: UseSearchStateExperimentalMicrotaskOptions<
+    Router,
+    From,
+    true,
+    Key,
+    Selected
+  >,
+): readonly [
+  state: Selected,
+  setState: SetSearchStateExperimentalMicrotask<StrictValue<Router, From, Key>>,
+];
+
+export function useSearchStateExperimentalMicrotask({
+  from,
+  key,
+  select,
+  strict,
+}: {
+  from?: string;
+  key: string;
+  select?: (value: never) => unknown;
+  strict?: boolean;
+}): readonly [state: unknown, setState: unknown] {
+  const searchOptions = useMemo(
+    () => ({
+      from,
+      select(search: Record<string, unknown>) {
+        const value = search[key];
+        return select ? select(value as never) : value;
+      },
+      strict,
+    }),
+    [from, key, select, strict],
+  );
+  const state = useSearch<AnyRouter, string, boolean>(
+    searchOptions as never,
+  ) as unknown;
+
+  const router = useRouter();
+  const setState = useMemo(
+    () =>
+      (
+        value: ((previous: unknown) => unknown) | unknown,
+        options?: SetSearchStateExperimentalMicrotaskOptions,
+      ) => {
+        setSearchValue(router, key, value, options);
+      },
+    [router, key],
+  );
+
+  return [state, setState];
 }

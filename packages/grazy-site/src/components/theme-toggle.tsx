@@ -16,6 +16,45 @@ const themeLabels: Record<ThemeMode, string> = {
   light: "Light",
 };
 
+function resolveTheme(
+  mode: ThemeMode,
+  isPrefersDark: boolean,
+): "dark" | "light" {
+  if (mode === "auto") {
+    return isPrefersDark ? "dark" : "light";
+  }
+
+  return mode;
+}
+
+function applyThemeMode(mode: ThemeMode) {
+  const isPrefersDark = globalThis.matchMedia(
+    "(prefers-color-scheme: dark)",
+  ).matches;
+  const resolved = resolveTheme(mode, isPrefersDark);
+
+  document.documentElement.classList.remove("light", "dark");
+  document.documentElement.classList.add(resolved);
+
+  if (mode === "auto") {
+    delete document.documentElement.dataset.theme;
+  } else {
+    document.documentElement.dataset.theme = mode;
+  }
+
+  document.documentElement.style.colorScheme = resolved;
+}
+
+function getInitialMode(): ThemeMode {
+  if (typeof window === "undefined") {
+    return "auto";
+  }
+
+  const stored = globalThis.localStorage.getItem("theme");
+  const mode = themeModes.find((candidate) => candidate === stored);
+  return mode ?? "auto";
+}
+
 export default function ThemeToggle() {
   const [mode, setMode] = useState<ThemeMode>(getInitialMode);
 
@@ -63,43 +102,4 @@ export default function ThemeToggle() {
       {themeLabels[mode]}
     </button>
   );
-}
-
-function applyThemeMode(mode: ThemeMode) {
-  const isPrefersDark = globalThis.matchMedia(
-    "(prefers-color-scheme: dark)",
-  ).matches;
-  const resolved = resolveTheme(mode, isPrefersDark);
-
-  document.documentElement.classList.remove("light", "dark");
-  document.documentElement.classList.add(resolved);
-
-  if (mode === "auto") {
-    delete document.documentElement.dataset.theme;
-  } else {
-    document.documentElement.dataset.theme = mode;
-  }
-
-  document.documentElement.style.colorScheme = resolved;
-}
-
-function getInitialMode(): ThemeMode {
-  if (typeof window === "undefined") {
-    return "auto";
-  }
-
-  const stored = globalThis.localStorage.getItem("theme");
-  const mode = themeModes.find((candidate) => candidate === stored);
-  return mode ?? "auto";
-}
-
-function resolveTheme(
-  mode: ThemeMode,
-  isPrefersDark: boolean,
-): "dark" | "light" {
-  if (mode === "auto") {
-    return isPrefersDark ? "dark" : "light";
-  }
-
-  return mode;
 }

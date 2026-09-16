@@ -1,4 +1,3 @@
-import perfectionist from "eslint-plugin-perfectionist";
 import tseslint from "typescript-eslint";
 import unicorn from 'eslint-plugin-unicorn';
 import { defineConfig } from "eslint/config";
@@ -22,7 +21,6 @@ export default defineConfig(
       js.configs.recommended,
       tseslint.configs.strict,
       tseslint.configs.stylistic,
-      perfectionist.configs['recommended-natural'],
       'unicorn/recommended',
       'import-x/flat/recommended',
       regexpPlugin.configs.recommended,
@@ -54,7 +52,6 @@ export default defineConfig(
       // TypeScript resolves extensionless imports; requiring `.js` suffixes
       // conflicts with how the source files are written.
       "import-x/extensions": "off",
-      "import-x/order": "off",
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": "error",
       "unicorn/consistent-class-member-order": "off",
