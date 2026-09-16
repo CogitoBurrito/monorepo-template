@@ -26,6 +26,15 @@ import { foo2 } from "./foo2";
 import { foo10 } from "./foo10";
 ```
 
+## When generating new code
+
+These rules are lint-enforced errors, not style suggestions — unsorted code must be fixed before it passes. When writing or generating new code, emit it already sorted instead of relying on autofix or a later reordering pass:
+
+- **Pre-sort from the start.** When creating a new object, import block, union type, parameter list, or `as const` array, emit members in natural ascending order immediately. Do not write members in the order they came to mind and expect the linter to sort them.
+- **Insert, don't append.** When adding a member to an existing sorted structure, read the surrounding members and place the new one in its sorted position. Appending to the end is almost always wrong and triggers a whole-group reorder in the diff.
+- **Re-check the whole group after edits.** Sorting is global to each group, so a single out-of-place member invalidates the entire group. After adding anything, re-scan the full group once.
+- **Sorted surfaces include:** imports, named exports, object keys and properties, function parameters, union type members, array literals before `.includes()`, `as const` enumerations, and class members.
+
 ## Examples by rule
 
 Each example below shows the order the rule enforces with `type: 'natural'` and `order: 'asc'`. Every rule page is linked for reference.

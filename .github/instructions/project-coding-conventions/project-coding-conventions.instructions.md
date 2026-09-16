@@ -37,9 +37,9 @@ applyTo: "**/*.ts, **/*.tsx"
 
 ### Sorting
 
-| Rule                                                      | Guidance                                                                    |
-| --------------------------------------------------------- | --------------------------------------------------------------------------- |
-| [sorting-natural-order](./rules/sorting-natural-order.md) | Use natural sort order (`type: 'natural'`) for all perfectionist sort rules |
+| Rule                                                      | Guidance                                                                              |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| [sorting-natural-order](./rules/sorting-natural-order.md) | Emit new code pre-sorted (natural, ascending); insert new members in sorted position, never append out of order |
 
 ### Comments
 
