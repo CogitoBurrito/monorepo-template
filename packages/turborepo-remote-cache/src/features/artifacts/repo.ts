@@ -27,12 +27,22 @@ function readMetadata(source: Record<string, string>) {
   const dirtyHash = source["x-artifact-dirty-hash"];
   const sha = source["x-artifact-sha"];
   const tag = source["x-artifact-tag"];
-  return {
-    ...(dirtyHash !== undefined && { dirtyHash }),
-    ...(duration !== undefined && { duration: Number(duration) }),
-    ...(sha !== undefined && { sha }),
-    ...(tag !== undefined && { tag }),
-  };
+
+  const metadataMap = new Map<string, string>();
+
+  if (dirtyHash !== undefined) {
+    metadataMap.set("dirtyHash", dirtyHash);
+  }
+  if (duration !== undefined) {
+    metadataMap.set("duration", duration);
+  }
+  if (sha !== undefined) {
+    metadataMap.set("sha", sha);
+  }
+  if (tag !== undefined) {
+    metadataMap.set("tag", tag);
+  }
+  return Object.fromEntries(metadataMap);
 }
 
 /**
