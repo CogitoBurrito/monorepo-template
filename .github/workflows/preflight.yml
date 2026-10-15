@@ -24,7 +24,6 @@ jobs:
         uses: pnpm/setup@v2.1.0
         with:
           require-lockfile: true
-          cache: true
 
       - name: Run preflight
         run: pnpm exec turbo run lint check:format check:type test

@@ -28,7 +28,6 @@ jobs:
         uses: pnpm/setup@v2.1.0
         with:
           require-lockfile: true
-          cache: true
 
       - name: Preflight & Build
         run: pnpm exec turbo run lint check:format check:type test build --filter=@jonsun/turborepo-remote-cache
