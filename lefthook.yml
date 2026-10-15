@@ -12,10 +12,10 @@ pre-commit:
       run: pnpm preflight
       stage_fixed: true
 
-pre-push:
-  commands:
-    preflight:
-      run: pnpm preflight
+# pre-push:
+#   commands:
+#     preflight:
+#       run: pnpm preflight
 
 # AI agent hooks (lefthook `ai`, beta): running `lefthook install` generates
 # .github/hooks/lefthook.json so GitHub Copilot calls `lefthook run validate`

@@ -130,8 +130,7 @@ function mergeOptions(
   }
 
   if (options.replace !== undefined) {
-    store.options.replace =
-      store.options.replace === false ? false : options.replace;
+    store.options.replace = store.options.replace !== false && options.replace;
   }
 
   if (options.ignoreBlocker) {
@@ -148,10 +147,10 @@ function mergeOptions(
 }
 
 /**
- Router can chain synchronous navigations through its pending location, but
- each changed location still reaches history and unchanged locations reload.
- This coordinator keeps a burst to one navigation and skips equal values.
- */
+Router can chain synchronous navigations through its pending location, but
+each changed location still reaches history and unchanged locations reload.
+This coordinator keeps a burst to one navigation and skips equal values.
+*/
 function setSearchValue<Value>(
   router: AnyRouter,
   key: string,

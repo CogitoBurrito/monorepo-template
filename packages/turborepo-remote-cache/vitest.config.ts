@@ -8,6 +8,8 @@ export default defineConfig({
     }),
   ],
   test: {
+    /* Workerd cannot read Vitest's module cache from the host filesystem. */
+    fsModuleCache: false,
     reporters:
       process.env.GITHUB_ACTIONS ? ["default", "github-actions"] : ["default"],
   },

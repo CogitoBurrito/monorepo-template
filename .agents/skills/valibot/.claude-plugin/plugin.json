@@ -9,10 +9,5 @@
   "homepage": "https://valibot.dev",
   "repository": "https://github.com/open-circle/agent-skills",
   "license": "MIT",
-  "keywords": [
-    "valibot",
-    "schema",
-    "validation",
-    "typescript"
-  ]
+  "keywords": ["valibot", "schema", "validation", "typescript"]
 }

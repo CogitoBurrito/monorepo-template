@@ -3,14 +3,14 @@ import { env, exports } from "cloudflare:workers";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 
 /**
- * Integration tests against the Turborepo Remote Cache OpenAPI spec
- * (`spec.json`). The worker is exercised through `exports.default.fetch()`,
- * which runs the `main` worker (from `wrangler.jsonc`) in the same isolate
- * as the tests on a miniflare-simulated environment.
- *
- * Endpoints are mounted at `/v8/artifacts`; the spec paths (`/artifacts/…`)
- * map onto them with the `/v8` prefix Turborepo's client uses.
- */
+Integration tests against the Turborepo Remote Cache OpenAPI spec
+(`spec.json`). The worker is exercised through `exports.default.fetch()`,
+which runs the `main` worker (from `wrangler.jsonc`) in the same isolate
+as the tests on a miniflare-simulated environment.
+
+Endpoints are mounted at `/v8/artifacts`; the spec paths (`/artifacts/…`)
+map onto them with the `/v8` prefix Turborepo's client uses.
+*/
 
 const BASE_URL = "https://cache.test/v8/artifacts";
 const TOKEN = "test-turbo-cache-token";
@@ -21,9 +21,9 @@ const BODY = new Uint8Array([104, 101, 108, 108, 111]);
 type ApiInit = Omit<RequestInit, "headers"> & { headers?: HeadersInit };
 
 /**
- * Sends a request to the worker, optionally with a bearer token — omit the
- * `token` argument to exercise the unauthenticated paths.
- */
+Sends a request to the worker, optionally with a bearer token — omit the
+`token` argument to exercise the unauthenticated paths.
+*/
 function request(path: string, init: ApiInit, token?: string) {
   const headers = new Headers(init.headers);
   if (token !== undefined) {
@@ -35,23 +35,23 @@ function request(path: string, init: ApiInit, token?: string) {
 }
 
 /**
- * Sends an authenticated request with the configured test token.
- */
+Sends an authenticated request with the configured test token.
+*/
 function api(path: string, init: ApiInit = {}) {
   return request(path, init, TOKEN);
 }
 
 /**
- * Sends a request without any authorization header.
- */
+Sends a request without any authorization header.
+*/
 function apiUnauthenticated(path: string, init: ApiInit = {}) {
   return request(path, init);
 }
 
 /**
- * Uploads an artifact, optionally scoped to a team (`?teamId=…&slug=…`)
- * and carrying metadata headers echoed back on download.
- */
+Uploads an artifact, optionally scoped to a team (`?teamId=…&slug=…`)
+and carrying metadata headers echoed back on download.
+*/
 async function upload(
   hash: string,
   metadata: Record<string, string> = {},
@@ -237,14 +237,14 @@ describe("HEAD /artifacts/{hash}", () => {
 });
 
 /**
- * JSON `null` literal — the spec's `ArtifactQueryResponse` maps missing
- * artifacts to `null` (matching the `jsonNull` convention in the source).
- */
+JSON `null` literal — the spec's `ArtifactQueryResponse` maps missing
+artifacts to `null` (matching the `jsonNull` convention in the source).
+*/
 const jsonNull = JSON.parse("null") as null;
 
 /**
- * Builds a cache usage analytics event body.
- */
+Builds a cache usage analytics event body.
+*/
 function event(overrides: Record<string, unknown> = {}) {
   return {
     event: "HIT",
@@ -256,8 +256,8 @@ function event(overrides: Record<string, unknown> = {}) {
 }
 
 /**
- * Queries artifact metadata for several hashes at once.
- */
+Queries artifact metadata for several hashes at once.
+*/
 function query(hashes: string[]) {
   return api("", {
     body: JSON.stringify({ hashes }),
@@ -267,8 +267,8 @@ function query(hashes: string[]) {
 }
 
 /**
- * Posts a batch of cache usage analytics events.
- */
+Posts a batch of cache usage analytics events.
+*/
 function sendEvents(body: unknown) {
   return api("/events", {
     body: JSON.stringify(body),

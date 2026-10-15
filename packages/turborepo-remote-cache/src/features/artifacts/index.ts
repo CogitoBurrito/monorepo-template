@@ -19,8 +19,8 @@ import { artifactService } from "./service";
 const artifactNotFoundCode = "ARTIFACT_NOT_FOUND";
 
 /**
- * Builds the `ArtifactNotFound` error response required by the spec.
- */
+Builds the `ArtifactNotFound` error response required by the spec.
+*/
 function artifactNotFound(c: Context, hash: string) {
   return c.json(
     errorBody(artifactNotFoundCode, `Artifact not found: ${hash}`),
@@ -29,8 +29,8 @@ function artifactNotFound(c: Context, hash: string) {
 }
 
 /**
- * Picks the artifact metadata out of the validated upload headers.
- */
+Picks the artifact metadata out of the validated upload headers.
+*/
 function extractMetadata(headers: UploadHeaders) {
   return {
     ...(headers["x-artifact-dirty-hash"] !== undefined && {
@@ -49,10 +49,10 @@ function extractMetadata(headers: UploadHeaders) {
 }
 
 /**
- * Response headers echoing stored artifact metadata, as required by the
- * spec for `HEAD` and `GET /artifacts/{hash}`. Only headers with a
- * defined value are included.
- */
+Response headers echoing stored artifact metadata, as required by the
+spec for `HEAD` and `GET /artifacts/{hash}`. Only headers with a
+defined value are included.
+*/
 function metadataHeaders(summary: ArtifactSummary) {
   const headers = new Map<string, string>();
   if (summary.dirtyHash !== undefined) {
@@ -71,18 +71,18 @@ function metadataHeaders(summary: ArtifactSummary) {
 }
 
 /**
- * Resolves the team scope used as the storage namespace: `teamId` wins
- * over `slug`; unscoped requests use an empty string.
- */
+Resolves the team scope used as the storage namespace: `teamId` wins
+over `slug`; unscoped requests use an empty string.
+*/
 function resolveTeam(query: TeamQuery) {
   return query.teamId ?? query.slug ?? "";
 }
 
 /**
- * The artifacts sub-app — route definitions, validation
- * integration, and service calls. Paths are relative; the `/artifacts`
- * prefix is managed at mount time in `src/index.ts`.
- */
+The artifacts sub-app — route definitions, validation
+integration, and service calls. Paths are relative; the `/artifacts`
+prefix is managed at mount time in `src/index.ts`.
+*/
 
 const app = new Hono();
 export const artifacts = app

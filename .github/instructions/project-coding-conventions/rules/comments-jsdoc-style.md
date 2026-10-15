@@ -27,23 +27,22 @@ function getTotal(price: number, taxRate: number): number {
 
 ```ts
 /**
- * Returns the user's display name.
- *
- * @param user - The user to format.
- * @param includeTitle - Whether to prefix the name with the title.
- * @returns The formatted display name, or `'Unknown'` if not set.
- */
+Returns the user's display name.
+@param user - The user to format.
+@param includeTitle - Whether to prefix the name with the title.
+@returns The formatted display name, or `'Unknown'` if not set.
+*/
 function getDisplayName(user: User, includeTitle = false): string {
   // ...existing code...
 }
 
 /**
- * Calculates the total price including tax.
- *
- * @param price - The base price.
- * @param taxRate - The tax rate (e.g. `0.1` for 10%).
- * @returns The total price rounded to two decimals.
- */
+Calculates the total price including tax.
+
+@param price - The base price.
+@param taxRate - The tax rate (e.g. `0.1` for 10%).
+@returns The total price rounded to two decimals.
+*/
 function getTotal(price: number, taxRate: number): number {
   // ...existing code...
 }

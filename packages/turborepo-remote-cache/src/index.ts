@@ -7,17 +7,15 @@ import { errorBody } from "./errors";
 import { artifacts } from "./features/artifacts";
 
 /**
- * The Turborepo Remote Cache Hono app.
- *
- * Contains only the mounts: every endpoint lives in the `artifacts` sub-app
- * and authentication is applied root-level — there are no public endpoints
- * whenever a token is configured. When `TURBO_TOKEN` is unset (development
- * mode) authentication is disabled and every request is accepted.
- */
+The Turborepo Remote Cache Hono app.
 
-const app = new Hono();
+Contains only the mounts: every endpoint lives in the `artifacts` sub-app
+and authentication is applied root-level — there are no public endpoints
+whenever a token is configured. When `TURBO_TOKEN` is unset (development
+mode) authentication is disabled and every request is accepted.
+*/
 
-export default app
+const app = new Hono()
   .use(
     "*",
     bearerAuth({
@@ -33,12 +31,13 @@ export default app
     );
   })
   .onError((error, c) => {
-    if (error instanceof HTTPException) {
-      return error.getResponse();
-    }
-    return c.json(
-      errorBody("INTERNAL_SERVER_ERROR", "An unexpected error occurred."),
-      500,
-    );
+    return error instanceof HTTPException ?
+        error.getResponse()
+      : c.json(
+          errorBody("INTERNAL_SERVER_ERROR", "An unexpected error occurred."),
+          500,
+        );
   })
   .route("/v8/artifacts", artifacts);
+
+export default app;

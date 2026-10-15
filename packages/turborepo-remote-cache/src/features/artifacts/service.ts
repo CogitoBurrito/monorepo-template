@@ -1,10 +1,10 @@
 import type { ArtifactMetadata, ArtifactSummary } from "./types";
 
-import { artifactRepo } from "./repo";
+import { artifactRepository } from "./repository";
 
 /**
- * Projects an artifact summary into the `POST /artifacts` response shape.
- */
+Projects an artifact summary into the `POST /artifacts` response shape.
+*/
 function toQueryInfo(summary: ArtifactSummary) {
   return {
     ...(summary.tag !== undefined && { tag: summary.tag }),
@@ -14,30 +14,38 @@ function toQueryInfo(summary: ArtifactSummary) {
 }
 
 /**
- * The artifacts application service, built on top of the shared
- * {@link artifactRepo}.
- */
+The artifacts application service, built on top of the shared
+{@link artifactRepository}.
+*/
 export const artifactService = {
   download: (team: string, hash: string) => {
-    return artifactRepo.find(team, hash);
+    return artifactRepository.get(team, hash);
   },
   query: async (team: string, hashes: readonly string[]) => {
-    const summaries = await artifactRepo.findSummaries(team, hashes);
+    const summaries = await Promise.all(
+      hashes.map(async (hash) => {
+        return [
+          hash,
+          await artifactRepository.readSummary(team, hash),
+        ] as const;
+      }),
+    );
+
     return Object.fromEntries(
-      Object.entries(summaries).map(([hash, summary]) => [
+      summaries.map(([hash, summary]) => [
         hash,
         summary === undefined ? undefined : toQueryInfo(summary),
       ]),
     );
   },
   summary: (team: string, hash: string) => {
-    return artifactRepo.findSummary(team, hash);
+    return artifactRepository.readSummary(team, hash);
   },
   upload: (
     team: string,
     hash: string,
     input: { body: Uint8Array<ArrayBuffer>; metadata: ArtifactMetadata },
   ) => {
-    return artifactRepo.save(team, hash, input);
+    return artifactRepository.save(team, hash, input);
   },
 } as const;

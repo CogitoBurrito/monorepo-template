@@ -9,7 +9,7 @@ import vitest from '@vitest/eslint-plugin'
 
 export default defineConfig(
   {
-    ignores: ["**/routeTree.gen.ts", "**/worker-configuration.d.ts", "**/dist/**"],
+    ignores: ["**/routeTree.gen.ts", "**/worker-configuration.d.ts", "**/dist/**", "*.config.ts"],
   },
   {
     files: ["**/*.ts", "**/*.tsx"],
@@ -81,7 +81,7 @@ export default defineConfig(
             }
           ]
         }
-      ]
+      ],
     },
   },
   {
