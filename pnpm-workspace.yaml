@@ -5,7 +5,7 @@ packages:
 catalogMode: prefer
 
 catalog:
-  eslint: 10.12.0
+  eslint: 10.14.0
   eslint-plugin-react-hooks: 7.1.1
   eslint-plugin-react-import: 3.0.0
   typescript: 6.0.3
@@ -14,90 +14,50 @@ catalog:
   react-dom: 19.3.1
   "@types/react": 19.3.0
   lefthook: 2.2.2
-  turbo: 2.11.8
-  "@eslint-react/eslint-plugin": 5.27.1
-  typescript-eslint: 8.71.2
-  "@types/node": 26.6.5
-  vitest: 5.0.4
+  turbo: 2.11.10
+  "@eslint-react/eslint-plugin": 5.30.1
+  typescript-eslint: 8.72.2
+  "@types/node": 26.6.6
+  vitest: 5.1.0
   "@types/react-dom": 19.3.0
-  "@tanstack/react-devtools": 0.10.13
-  "@tanstack/react-query": 5.104.3
-  "@tanstack/react-router": 1.170.44
-  "@tanstack/react-router-devtools": 1.167.2
+  "@tanstack/react-devtools": 0.10.14
+  "@tanstack/react-query": 5.107.1
+  "@tanstack/react-router": 1.170.46
+  "@tanstack/react-router-devtools": 1.167.3
   "@tanstack/react-router-ssr-query": 1.167.3
-  "@tanstack/react-start": 1.169.2
-  "@tanstack/devtools-vite": 0.8.5
-  "@tanstack/router-cli": 1.167.44
+  "@tanstack/react-start": 1.169.5
+  "@tanstack/devtools-vite": 0.8.6
+  "@tanstack/router-cli": 1.168.0
   valibot: 1.5.0
-  vite: 8.3.4
-  nitro: 3.0.260903-beta
-  tailwindcss: 4.3.3
-  "@tailwindcss/vite": 4.3.3
+  vite: 8.3.7
+  nitro: 3.0.261103-rc
+  tailwindcss: 4.3.5
+  "@tailwindcss/vite": 4.3.5
   "@tailwindcss/typography": 0.5.20
-  "@vitejs/plugin-react": 6.1.2
+  "@vitejs/plugin-react": 6.3.0
   "@testing-library/react": 16.3.3
-  happy-dom: 21.0.1
+  happy-dom: 21.0.4
   "@tanstack/react-pacer": 0.24.1
-  eslint-plugin-unicorn: 78.0.0
+  eslint-plugin-unicorn: 79.0.0
   '@eslint/js': 10.0.1
-  eslint-plugin-import-x: 4.17.1
-  '@typescript-eslint/parser': 8.71.2
+  eslint-plugin-import-x: 4.18.1
+  '@typescript-eslint/parser': 8.72.2
   eslint-import-resolver-typescript: 4.4.5
-  eslint-plugin-regexp: 3.3.1
-  '@vitest/eslint-plugin': 1.6.27
-  '@tanstack/eslint-plugin-query': 5.104.3
+  eslint-plugin-regexp: 3.3.3
+  '@vitest/eslint-plugin': 1.6.28
+  '@tanstack/eslint-plugin-query': 5.107.1
   '@tanstack/eslint-plugin-router': 1.162.0
   '@hono/cli': 0.1.11
-  '@hono/standard-validator': 0.4.0
+  '@hono/standard-validator': 0.4.1
   '@standard-schema/spec': 1.1.0
-  wrangler: 4.151.0
+  wrangler: 4.160.0
   unstorage: 1.17.6
-  '@cloudflare/vite-plugin': 1.64.0
-  '@cloudflare/vitest-plugin': 1.4.2
-  hono: 4.13.13
+  '@cloudflare/vite-plugin': 1.68.0
+  '@cloudflare/vitest-plugin': 1.7.0
+  hono: 4.13.17
 
 allowBuilds:
   esbuild: true
   lefthook: true
   unrs-resolver: true
   workerd: true
-
-minimumReleaseAgeExclude:
-  - lefthook-darwin-arm64@2.2.0
-  - lefthook-darwin-x64@2.2.0
-  - lefthook-freebsd-arm64@2.2.0
-  - lefthook-freebsd-x64@2.2.0
-  - lefthook-linux-arm64@2.2.0
-  - lefthook-linux-x64@2.2.0
-  - lefthook-openbsd-arm64@2.2.0
-  - lefthook-openbsd-x64@2.2.0
-  - lefthook-windows-arm64@2.2.0
-  - lefthook-windows-x64@2.2.0
-  - lefthook@2.2.0
-  - '@eslint-react/ast@5.27.1'
-  - '@eslint-react/core@5.27.1'
-  - '@eslint-react/eslint-plugin@5.27.1'
-  - '@eslint-react/eslint@5.27.1'
-  - '@eslint-react/jsx@5.27.1'
-  - '@eslint-react/shared@5.27.1'
-  - '@eslint-react/var@5.27.1'
-  - '@tanstack/eslint-plugin-query@5.104.3'
-  - '@tanstack/query-core@5.104.3'
-  - '@tanstack/react-query@5.104.3'
-  - '@tanstack/react-start-rsc@0.1.63'
-  - '@tanstack/react-start-server@1.167.50'
-  - '@tanstack/react-start@1.169.2'
-  - '@tanstack/router-cli@1.167.44'
-  - '@tanstack/router-generator@1.167.44'
-  - '@tanstack/router-plugin@1.168.46'
-  - '@tanstack/router-utils@1.162.4'
-  - '@tanstack/start-plugin-core@1.171.53'
-  - '@tanstack/start-server-core@1.169.43'
-  - eslint-plugin-react-dom@5.27.1
-  - eslint-plugin-react-jsx@5.27.1
-  - eslint-plugin-react-naming-convention@5.27.1
-  - eslint-plugin-react-rsc@5.27.1
-  - eslint-plugin-react-web-api@5.27.1
-  - eslint-plugin-react-x@5.27.1
-  - react-dom@19.3.1
-  - react@19.3.1

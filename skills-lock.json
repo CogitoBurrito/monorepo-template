@@ -1,59 +1,59 @@
 {
-  "version": 1,
+  "version": 2,
   "skills": {
     "cloudflare": {
       "source": "cloudflare/skills",
       "sourceType": "github",
       "skillPath": "skills/cloudflare/SKILL.md",
-      "computedHash": "a0012f877c4441026049e669d54da6dd53d7ef8fd3de70f1a818e71ffcbf7e81"
+      "computedHash": "a40c5c77e4b96b0f6603a54e67bf2ff401a872366af48ff8f6ae0e872d4ad324"
     },
     "heroui-native": {
       "source": "heroui-inc/heroui",
       "sourceType": "github",
       "skillPath": "skills/heroui-native/SKILL.md",
-      "computedHash": "8f8fc3913fd585563795ce27a534428024f794621114f0c83039bc3c983dabdd"
+      "computedHash": "f1769079a8b741a65bcc2a0b052e2d26c3fc5959b43df0a39cdaacffff59558d"
     },
     "heroui-react": {
       "source": "heroui-inc/heroui",
       "sourceType": "github",
       "skillPath": "skills/heroui-react/SKILL.md",
-      "computedHash": "c11684a8843e4c511b03a0c9c5b9cad09eb1babbf23650e1b75c45d387cadd7a"
+      "computedHash": "30701672e3efefe0e1fbeaadd118010d18b697db674d87ac24103e0a470064a9"
     },
     "hono": {
       "source": "honojs/skills",
       "sourceType": "github",
       "skillPath": "skills/hono/SKILL.md",
-      "computedHash": "f469bac28a53d010bb47bd61109d0cfebe9a4f3fd407310746114549886b5870"
+      "computedHash": "b9aa6ed86fce02216f2f43c4b5c651ba0055f0785a568d84fc446721fc832172"
     },
     "pnpm": {
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/pnpm/SKILL.md",
-      "computedHash": "d1bd6f4fd38ff1ba33b857223c58a832d1cd5b488163ba0d389db449be472603"
+      "computedHash": "fb4c2b0f98b1e651fb217f2070e3782f2fa58fd7d9fb2745e9fefaf945b8c60e"
     },
     "turborepo": {
       "source": "vercel/turborepo",
       "sourceType": "github",
       "skillPath": "skills/turborepo/SKILL.md",
-      "computedHash": "9681d8dfeb5e6cdff767f1bcaba5d7ac55732a9d6c02ee120f44229f8ec25e7e"
+      "computedHash": "49bb6427015253ce5d93f15dfa6c9ade3f8528f0fbe54769b6da1e1458f058d4"
     },
     "valibot": {
       "source": "open-circle/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/valibot/SKILL.md",
-      "computedHash": "dc7ad7dc09548808d26aef0bc58786a4ee3559e153a1e83c9c4574f3a294ea1b"
+      "computedHash": "5792dc3f1fe0d09b69be700a75b3ea643ce7ed97fba659082f5da2f7f024ea12"
     },
     "vitest": {
       "source": "antfu/skills",
       "sourceType": "github",
       "skillPath": "skills/vitest/SKILL.md",
-      "computedHash": "21af2b13d47d31f3094b61c0f41abc8d6a7eed0df3c9a4029ea671f6978b7209"
+      "computedHash": "bd95e41d66d76da9008893c9bc48c30f0a68f352cd2b00017767f5e4c129501d"
     },
     "wrangler": {
       "source": "cloudflare/skills",
       "sourceType": "github",
       "skillPath": "skills/wrangler/SKILL.md",
-      "computedHash": "9b410cfe14c41d3d4ace5d42e2e19f4eb96104c659b5ed45abf341db28d81029"
+      "computedHash": "182e370d8c26e6bcb896a57a63e6cab006b253b9278cc3515f7b9db2c4d07661"
     }
   }
 }

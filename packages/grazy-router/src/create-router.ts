@@ -27,13 +27,6 @@ type PageRouteId = Exclude<RouteIds<typeof routeTree>, "__root__">;
 type RootHead = NonNullable<RootRouteOptions["head"]>;
 type RootShellComponent = NonNullable<RootRouteOptions["shellComponent"]>;
 
-type RouteComponentBindings = {
-  readonly [TRouteId in PageRouteId]: () => RouteById<
-    typeof routeTree,
-    TRouteId
-  >;
-};
-
 export const queryClient = new QueryClient();
 
 export const router = createRouter({
@@ -49,6 +42,13 @@ export function createAppRouterFactory({
   rootShellComponent,
   routeComponents,
 }: AppRouterFactoryOptions) {
+  type RouteComponentBindings = {
+    readonly [TRouteId in PageRouteId]: () => RouteById<
+      typeof routeTree,
+      TRouteId
+    >;
+  };
+
   Object.assign(RootRoute.options, {
     head: rootHead,
     shellComponent: rootShellComponent,

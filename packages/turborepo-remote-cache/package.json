@@ -20,7 +20,7 @@
     "@hono/standard-validator": "catalog:",
     "@standard-schema/spec": "catalog:",
     "hono": "catalog:",
-    "valibot": "^1.5.0"
+    "valibot": "catalog:"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "catalog:",

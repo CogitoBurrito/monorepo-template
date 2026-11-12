@@ -2,7 +2,15 @@ import { sValidator } from "@hono/standard-validator";
 import * as v from "valibot";
 
 import { validationErrorHook } from "../../validation";
+import { StandardSchemaV1 } from "@standard-schema/spec";
+import { ValidationTargets } from "hono/types";
 
+export function test<
+  T extends StandardSchemaV1,
+  Target extends keyof ValidationTargets,
+>(target: Target, schema: T) {
+  return sValidator(target, schema, validationErrorHook);
+}
 /**
 Header value coerced from its string form into a number.
 */

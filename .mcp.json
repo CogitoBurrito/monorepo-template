@@ -1,0 +1,22 @@
+{
+	"mcpServers": {
+		"cloudflare-doc-mcp": {
+			"type": "http",
+			"url": "https://docs.mcp.cloudflare.com/mcp",
+			"tools": [
+				"*"
+			]
+		},
+		"valibot-doc-mcp": {
+			"type": "http",
+			"url": "https://valibot.dev/mcp",
+			"tools": [
+				"*"
+			]
+		},
+		"excalidraw": {
+			"url": "https://mcp.excalidraw.com",
+			"type": "http"
+		}
+	}
+}
