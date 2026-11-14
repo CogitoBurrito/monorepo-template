@@ -17,6 +17,24 @@
 		"excalidraw": {
 			"url": "https://mcp.excalidraw.com",
 			"type": "http"
+		},
+		"chrome-devtools": {
+			"command": "/mnt/c/Windows/System32/cmd.exe",
+			"args": [
+				"/d",
+				"/c",
+				"npx",
+				"-y",
+				"chrome-devtools-mcp@latest"
+			]
+		},
+		"agent-browser": {
+			"command": "agent-browser",
+			"args": [
+				"mcp",
+				"--tools",
+				"all"
+			]
 		}
 	}
 }
