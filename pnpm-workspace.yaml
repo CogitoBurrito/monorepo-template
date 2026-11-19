@@ -5,7 +5,7 @@ packages:
 catalogMode: prefer
 
 catalog:
-  eslint: 10.14.0
+  eslint: 10.15.0
   eslint-plugin-react-hooks: 7.1.1
   eslint-plugin-react-import: 3.0.0
   typescript: 6.0.3
@@ -50,10 +50,10 @@ catalog:
   '@hono/cli': 0.1.11
   '@hono/standard-validator': 0.4.1
   '@standard-schema/spec': 1.1.0
-  wrangler: 4.161.0
+  wrangler: 4.162.0
   unstorage: 1.17.6
   '@cloudflare/vite-plugin': 1.69.1
-  '@cloudflare/vitest-plugin': 1.8.1
+  '@cloudflare/vitest-plugin': 1.8.2
   hono: 4.13.18
 
 allowBuilds:

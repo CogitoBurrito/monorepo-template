@@ -1,0 +1,45 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      "chrome-devtools-mcp": {
+        "type": "local",
+        "command": [
+          "/mnt/c/Windows/System32/cmd.exe",
+          "/d",
+          "/c",
+          "npx",
+          "-y",
+          "chrome-devtools-mcp@latest"
+        ],
+        "cwd": "/mnt/c/Users/jon.sun",
+        "disabled": true
+      },
+      "figma": {
+        "type": "remote",
+        "url": "https://mcp.figma.com/mcp",
+        "disabled": false
+      },
+      "agent-browser": {
+        "type": "local",
+        "command": ["agent-browser", "mcp", "--tools", "all"],
+        "disabled": false
+      },
+      "eslint": {
+        "type": "local",
+        "command": ["pnpx", "@eslint/mcp@latest"],
+        "disabled": false
+      },
+      "valibot": {
+        "type": "remote",
+        "url": "https://valibot.dev/mcp",
+        "disabled": false
+      },
+      "cloudflare-doc": {
+        "type": "remote",
+        "url": "https://docs.mcp.cloudflare.com/mcp",
+        "disabled": false
+      }
+    }
+  }
+}
